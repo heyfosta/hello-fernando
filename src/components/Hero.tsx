@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { heroAnimation } from '../animations/HeroAnimation';
+import React, { useEffect, useRef, useState } from 'react';
+import { heroAnimation, scrollAnimation } from '../animations/HeroAnimation';
 
 interface HeroProps {
   isAnimationComplete: boolean;
@@ -7,12 +7,20 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = ({ isAnimationComplete }) => {
   const heroRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScroll, setCanScroll] = useState(false);
 
   useEffect(() => {
     if (isAnimationComplete) {
-      heroAnimation(heroRef.current);
+      heroAnimation(heroRef.current, setCanScroll);
     }
   }, [isAnimationComplete]);
+
+  useEffect(() => {
+    if (canScroll) {
+      scrollAnimation(scrollRef.current);
+    }
+  }, [canScroll]);
 
   return (
     <div
@@ -38,11 +46,15 @@ const Hero: React.FC<HeroProps> = ({ isAnimationComplete }) => {
             I build things for the web.
           </h3>
         </div>
-        <div className="fadeup" style={{ transitionDelay: '400ms' }}>
-          <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl max-w-7xl whitespace-nowrap">
-            and create digital products lovingly made with a human touch.
-          </p>
-        </div>
+        <div
+  ref={scrollRef}
+  className="scroll-section"
+  style={{ transform: 'translateX(100%)' }}
+>
+  <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl max-w-7xl whitespace-nowrap">
+    and create digital products lovingly made with a human touch.
+  </p>
+</div>
       </div>
     </div>
   );

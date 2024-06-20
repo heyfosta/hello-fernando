@@ -21,3 +21,7 @@ code {
 body {
   background-color: #eebe4e;
 }
+
+.lock-screen {
+  overflow: hidden;
+}
