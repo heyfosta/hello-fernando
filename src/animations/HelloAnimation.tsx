@@ -1,3 +1,4 @@
+//src/animations/HelloAnimation.tsx
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { TextPlugin } from 'gsap/TextPlugin';
@@ -97,7 +98,7 @@ gsap.timeline()
   }, []); 
 
   return (
-    <div className="fixed inset-0 z-50 pointer-events-none">
+    <div className="fixed inset-0 z-50 pointer-events-none font-bebas">
       <div className="absolute inset-0 flex items-center justify-center z-30">
         <div
           ref={animationRef}

@@ -2,6 +2,7 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 body {
   margin: 0;
@@ -17,11 +18,15 @@ code {
     monospace;
 }
 
-
 body {
   background-color: #eebe4e;
 }
 
 .lock-screen {
   overflow: hidden;
+}
+
+/* Add a utility class for Bebas Neue */
+.font-bebas {
+  font-family: 'Bebas Neue', sans-serif;
 }

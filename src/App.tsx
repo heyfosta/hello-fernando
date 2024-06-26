@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+//src/App.tsx
+import React, { useState, useRef, useEffect } from 'react';
 import HelloAnimation from './animations/HelloAnimation';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -8,15 +9,25 @@ import Contact from './components/Contact';
 
 const App: React.FC = () => {
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const handleAnimationComplete = () => {
     setIsAnimationComplete(true);
   };
 
+  useEffect(() => {
+    if (isAnimationComplete && contentRef.current) {
+      contentRef.current.style.visibility = 'visible';
+    }
+  }, [isAnimationComplete]);
+
   return (
     <div>
-      <div className="container mx-auto">
-        <Hero isAnimationComplete={isAnimationComplete} />
+      <Hero isAnimationComplete={isAnimationComplete} />
+      <div 
+        ref={contentRef} 
+        style={{ visibility: isAnimationComplete ? 'visible' : 'hidden' }}
+      >
         <About />
         <Experience />
         <Projects />

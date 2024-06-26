@@ -1,3 +1,4 @@
+//src/components/Projects.tsx
 import React from 'react';
 import projects from '../data/Projects.json';
 import { Project } from '../types/Project';
