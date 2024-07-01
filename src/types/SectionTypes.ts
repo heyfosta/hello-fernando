@@ -1,16 +1,15 @@
 // src/types/SectionTypes.ts
 import { FC } from 'react';
 
-export interface HeroProps {
-    onComplete?: () => void;
-  }
-  
-  
+export interface CommonSectionProps {
+  onComplete?: () => void;
+}
 
-export interface AboutProps {}
-export interface ExperienceProps {}
-export interface ProjectsProps {}
-export interface ContactProps {}
+export interface HeroProps extends CommonSectionProps {}
+export interface AboutProps extends CommonSectionProps {}
+export interface ExperienceProps extends CommonSectionProps {}
+export interface ProjectsProps extends CommonSectionProps {}
+export interface ContactProps extends CommonSectionProps {}
 
 export type SectionProps = HeroProps | AboutProps | ExperienceProps | ProjectsProps | ContactProps;
 

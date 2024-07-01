@@ -1,45 +1,38 @@
-import React, { useRef, useEffect } from 'react';
-import { gsap } from 'gsap';
+// src/components/SectionWrapper.tsx
+import React from 'react';
 
 interface SectionWrapperProps {
   children: React.ReactNode;
   index: number;
-  isEnabled: boolean;
-  shouldAnimate: boolean;
-  onComplete: () => void;
+  currentSection: number;
+  scrollProgress: number;
 }
-export const SectionWrapper: React.FC<SectionWrapperProps> = ({ 
-    children, 
-    index, 
-    isEnabled, 
-    shouldAnimate,
-    onComplete 
-  }) => {
-    const sectionRef = useRef<HTMLDivElement>(null);
-  
-    useEffect(() => {
-      if (shouldAnimate && sectionRef.current) {
-        gsap.to(sectionRef.current, {
-          y: '-100%',
-          duration: 1,
-          ease: 'power2.inOut',
-          onComplete: () => {
-            onComplete();
-          }
-        });
-      }
-    }, [shouldAnimate, onComplete]);
-  
-    return (
-      <div
-        ref={sectionRef}
-        className={`section absolute top-0 left-0 w-full h-full ${isEnabled ? 'visible' : 'invisible'}`}
-        style={{ 
-          zIndex: 100 - index,
-          transform: `translateY(${index === 0 ? '0' : '0'})`
-        }}
-      >
-        {children}
-      </div>
-    );
+
+export const SectionWrapper: React.FC<SectionWrapperProps> = ({
+  children,
+  index,
+  currentSection,
+  scrollProgress
+}) => {
+  const calculateTransform = () => {
+    if (index < currentSection) {
+      return 'translateY(-100%)';
+    } else if (index > currentSection) {
+      return 'translateY(100%)';
+    } else {
+      return `translateY(${-scrollProgress}%)`;
+    }
   };
+
+  return (
+    <div
+      className={`section absolute top-0 left-0 w-full h-full transition-transform duration-300 ease-out`}
+      style={{
+        transform: calculateTransform(),
+        zIndex: 100 - index,
+      }}
+    >
+      {children}
+    </div>
+  );
+};

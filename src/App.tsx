@@ -1,66 +1,64 @@
-import React, { useState, useCallback, useMemo } from 'react';
-import HelloAnimation from './animations/HelloAnimation';
+// src/App.tsx
+import React, { useState, useMemo, useEffect } from 'react';
 import Hero from './components/Hero';
 import About from './components/About';
 import Experience from './components/Experience';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import { SectionWrapper } from './components/SectionWrapper';
-import { Section, HeroProps, AboutProps, ExperienceProps, ProjectsProps, ContactProps } from './types/SectionTypes';
+
 
 const App: React.FC = () => {
-  const [isHelloAnimationComplete, setIsHelloAnimationComplete] = useState(false);
-  const [sectionToAnimate, setSectionToAnimate] = useState(-1);
+  const [currentSection, setCurrentSection] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
-  const handleHelloAnimationComplete = useCallback(() => {
-    console.log('Hello animation complete');
-    setIsHelloAnimationComplete(true);
-  }, []);
+  const sections = useMemo(() => [
+    { Component: Hero },
+    { Component: About },
+    { Component: Experience },
+    { Component: Projects },
+    { Component: Contact },
+  ], []);
 
-  const handleSectionComplete = useCallback((index: number) => {
-    console.log(`Section ${index} complete, setting sectionToAnimate`);
-    setSectionToAnimate(index);
-  }, []);
-  
-  const handleSectionAnimationComplete = useCallback(() => {
-    console.log('Section animation complete');
-    setSectionToAnimate(-1);
-  }, []);
+  useEffect(() => {
+    const handleScroll = (event: WheelEvent) => {
+      event.preventDefault();
 
-  const sections: [
-    Section<HeroProps>,
-    Section<AboutProps>,
-    Section<ExperienceProps>,
-    Section<ProjectsProps>,
-    Section<ContactProps>
-  ] = useMemo(() => [
-    { Component: Hero, props: { onComplete: () => handleSectionComplete(0) } },
-    { Component: About, props: {} },
-    { Component: Experience, props: {} },
-    { Component: Projects, props: {} },
-    { Component: Contact, props: {} },
-  ], [handleSectionComplete]);
+      setScrollProgress((prevProgress) => {
+        const newProgress = prevProgress + (event.deltaY / 10); // Adjust sensitivity here
+
+        if (newProgress >= 100 && currentSection < sections.length - 1) {
+          setCurrentSection(prev => prev + 1);
+          return 0;
+        } else if (newProgress <= -100 && currentSection > 0) {
+          setCurrentSection(prev => prev - 1);
+          return 0;
+        }
+
+        return Math.max(-100, Math.min(100, newProgress));
+      });
+    };
+
+    window.addEventListener('wheel', handleScroll, { passive: false });
+    return () => window.removeEventListener('wheel', handleScroll);
+  }, [currentSection, sections.length]);
 
   return (
     <div className="relative h-screen overflow-hidden">
-      {!isHelloAnimationComplete ? (
-        <HelloAnimation onComplete={handleHelloAnimationComplete} />
-      ) : (
-        <div className="sections-stack relative h-full">
-          {sections.map(({ Component, props }, index) => (
-            <SectionWrapper 
-              key={index} 
-              index={index} 
-              isEnabled={true}
-              shouldAnimate={index === sectionToAnimate}
-              onComplete={handleSectionAnimationComplete}
-            >
-              <Component {...props} />
-            </SectionWrapper>
-          ))}
-        </div>
-      )}
+      <div className="sections-stack relative h-full">
+        {sections.map(({ Component }, index) => (
+          <SectionWrapper 
+            key={index} 
+            index={index} 
+            currentSection={currentSection}
+            scrollProgress={scrollProgress}
+          >
+            <Component />
+          </SectionWrapper>
+        ))}
+      </div>
     </div>
   );
 };
-export default App
+
+export default App;

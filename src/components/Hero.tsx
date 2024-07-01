@@ -1,3 +1,5 @@
+
+//src/components/Hero.tsx
 import React from 'react';
 import { useHeroAnimation } from '../animations/HeroAnimation';
 import { HeroProps } from '../types/SectionTypes';
