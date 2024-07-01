@@ -3,7 +3,7 @@ import React from 'react';
 
 const Contact: React.FC = () => {
   return (
-    <section className="py-16 bg-gray-100">
+    <section className="py-16 bg-gray-100 component-section">
       <div className="container mx-auto">
         <h2 className="text-4xl font-bold mb-8 text-center">Contact Me</h2>
         <p className="text-lg mb-4 text-center">You can reach me at:</p>

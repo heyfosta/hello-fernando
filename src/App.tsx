@@ -1,39 +1,32 @@
-//src/App.tsx
-import React, { useState, useRef, useEffect } from 'react';
+// src/App.tsx
+import React, { useState } from 'react';
 import HelloAnimation from './animations/HelloAnimation';
 import Hero from './components/Hero';
 import About from './components/About';
-import Experience from './components/Experience';
-import Projects from './components/Projects';
-import Contact from './components/Contact';
+// Import other components as needed
 
 const App: React.FC = () => {
-  const [isAnimationComplete, setIsAnimationComplete] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const [isHelloAnimationComplete, setIsHelloAnimationComplete] = useState(false);
+  const [isHeroAnimationComplete, setIsHeroAnimationComplete] = useState(false);
 
-  const handleAnimationComplete = () => {
-    setIsAnimationComplete(true);
+  const handleHelloAnimationComplete = () => {
+    setIsHelloAnimationComplete(true);
   };
 
-  useEffect(() => {
-    if (isAnimationComplete && contentRef.current) {
-      contentRef.current.style.visibility = 'visible';
-    }
-  }, [isAnimationComplete]);
+  const handleHeroAnimationComplete = () => {
+    setIsHeroAnimationComplete(true);
+  };
 
   return (
     <div>
-      <Hero isAnimationComplete={isAnimationComplete} />
-      <div 
-        ref={contentRef} 
-        style={{ visibility: isAnimationComplete ? 'visible' : 'hidden' }}
-      >
-        <About />
-        <Experience />
-        <Projects />
-        <Contact />
-      </div>
-      {!isAnimationComplete && <HelloAnimation onComplete={handleAnimationComplete} />}
+      {!isHelloAnimationComplete && (
+        <HelloAnimation onComplete={handleHelloAnimationComplete} />
+      )}
+      {isHelloAnimationComplete && (
+        <Hero onAnimationComplete={handleHeroAnimationComplete} />
+      )}
+      {isHeroAnimationComplete && <About />}
+      {/* Add other sections similarly */}
     </div>
   );
 };

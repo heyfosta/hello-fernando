@@ -7,7 +7,7 @@ const Projects: React.FC = () => {
   const projectsData: Project[] = projects as Project[];
 
   return (
-    <section className="py-16 bg-gray-100">
+    <section className="py-16 bg-gray-100 component-section">
       <div className="container mx-auto">
         <h2 className="text-4xl font-bold mb-8 text-center">Projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

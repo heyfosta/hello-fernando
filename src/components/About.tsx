@@ -3,7 +3,7 @@ import React from 'react';
 
 const About: React.FC = () => {
   return (
-    <section className="py-16">
+    <section className="py-16 component-section">
       <div className="container mx-auto">
         <h2 className="text-4xl font-bold mb-8 text-center">About Me</h2>
         <p className="text-lg mb-4 text-center">

@@ -1,32 +1,26 @@
-//src/components/Hero.tsx
+// src/components/Hero.tsx
 import React, { useEffect, useRef } from 'react';
-import { heroAnimation, scrollAnimation } from '../animations/HeroAnimation';
+import { heroAnimation } from '../animations/HeroAnimation';
 
 interface HeroProps {
-  isAnimationComplete: boolean;
+  onAnimationComplete: () => void;
 }
 
-const Hero: React.FC<HeroProps> = ({ isAnimationComplete }) => {
+const Hero: React.FC<HeroProps> = ({ onAnimationComplete }) => {
   const heroRef = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isAnimationComplete) {
-      heroAnimation(heroRef.current, () => {
-        if (scrollRef.current) {
-          scrollAnimation(scrollRef.current);
-        }
-      });
+    if (heroRef.current) {
+      heroAnimation(heroRef.current, onAnimationComplete);
     }
-  }, [isAnimationComplete]);
+  }, [onAnimationComplete]);
 
   return (
     <div
       ref={heroRef}
-  className="hero-container h-screen bg-[#eebe4e] text-black flex flex-col justify-between items-start py-16 px-8 sm:px-16 fixed top-0 left-0 w-full"
-      >
+      className="hero-container h-screen bg-[#eebe4e] text-black flex flex-col justify-between items-start py-16 px-8 sm:px-16 fixed top-0 left-0 w-full"
+    >
       <div className="container mx-auto 2xl:max-w-[2000px]">
-
         <div className="mb-8">
           <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-10xl 2xl:text-11xl font-bold whitespace-nowrap">
             Hi, my name is
@@ -45,12 +39,11 @@ const Hero: React.FC<HeroProps> = ({ isAnimationComplete }) => {
             I build things for the web.
           </h3>
         </div>
-        <div ref={scrollRef} className="scroll-section overflow-hidden w-full" style={{ transform: 'translateX(200%)' }}>
-    <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl max-w-7xl whitespace-nowrap">
-      and create digital products lovingly made with a human touch.
-    </p>
-  </div>
-
+        <div className="scroll-section overflow-hidden w-full" style={{ transform: 'translateX(200%)' }}>
+          <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl max-w-7xl whitespace-nowrap">
+            and create digital products lovingly made with a human touch.
+          </p>
+        </div>
       </div>
     </div>
   );
