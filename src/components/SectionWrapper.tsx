@@ -26,10 +26,10 @@ export const SectionWrapper: React.FC<SectionWrapperProps> = ({
 
   return (
     <div
-      className={`section absolute top-0 left-0 w-full h-full transition-transform duration-300 ease-out`}
+      className="section absolute top-0 left-0 w-full h-full transition-transform duration-300 ease-out"
       style={{
         transform: calculateTransform(),
-        zIndex: 100 - index,
+        zIndex: 100 - Math.abs(index - currentSection),
       }}
     >
       {children}

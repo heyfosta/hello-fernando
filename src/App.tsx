@@ -8,6 +8,8 @@ import Contact from './components/Contact';
 import { SectionWrapper } from './components/SectionWrapper';
 
 
+
+
 const App: React.FC = () => {
   const [currentSection, setCurrentSection] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -21,26 +23,30 @@ const App: React.FC = () => {
   ], []);
 
   useEffect(() => {
+    let accumulatedDelta = 0;
+    const scrollSensitivity = 0.15; // Adjust this value to change scroll sensitivity
+
     const handleScroll = (event: WheelEvent) => {
       event.preventDefault();
 
-      setScrollProgress((prevProgress) => {
-        const newProgress = prevProgress + (event.deltaY / 10); // Adjust sensitivity here
+      accumulatedDelta += event.deltaY * scrollSensitivity;
 
-        if (newProgress >= 100 && currentSection < sections.length - 1) {
-          setCurrentSection(prev => prev + 1);
-          return 0;
-        } else if (newProgress <= -100 && currentSection > 0) {
-          setCurrentSection(prev => prev - 1);
-          return 0;
-        }
+      if (accumulatedDelta > 100 && currentSection < sections.length - 1) {
+        setCurrentSection(prev => prev + 1);
+        accumulatedDelta = 0;
+      } else if (accumulatedDelta < -100 && currentSection > 0) {
+        setCurrentSection(prev => prev - 1);
+        accumulatedDelta = 0;
+      }
 
-        return Math.max(-100, Math.min(100, newProgress));
-      });
+      setScrollProgress(accumulatedDelta);
     };
 
     window.addEventListener('wheel', handleScroll, { passive: false });
-    return () => window.removeEventListener('wheel', handleScroll);
+
+    return () => {
+      window.removeEventListener('wheel', handleScroll);
+    };
   }, [currentSection, sections.length]);
 
   return (
