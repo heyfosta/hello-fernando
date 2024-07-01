@@ -1,59 +1,90 @@
-// src/animations/HeroAnimation.ts
+import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
+export const useHeroAnimation = (onAnimationComplete?: () => void) => {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const animationCompletedRef = useRef(false);
 
-export const heroAnimation = (heroRef: HTMLDivElement | null, onComplete: () => void) => {
-  if (!heroRef) return;
-
-  const slideLeftText = heroRef.querySelector('.slide-left h3');
-  const scrollSection = heroRef.querySelector('.scroll-section');
-  if (!slideLeftText || !scrollSection) return;
-
-  const tl = gsap.timeline();
-
-  tl.fromTo(
-    slideLeftText,
-    { x: '-200%', opacity: 0 },
-    {
-      x: '100%',
-      opacity: 1,
-      duration: 0.5,
-      ease: 'power2.out',
+  useEffect(() => {
+    console.log('HeroAnimation effect running');
+    const hero = heroRef.current;
+    const scroll = scrollRef.current;
+    if (!hero || !scroll) {
+      console.log('Hero or scroll ref not found');
+      return;
     }
-  ).to(slideLeftText, {
-    x: '0%',
-    duration: 0.5,
-    ease: 'elastic.out(1, 0.5)',
-  });
 
-  // Set up scroll animation
-  ScrollTrigger.create({
-    trigger: heroRef,
-    start: "top top",
-    end: "+=200%",
-    scrub: 1,
-    pin: true,
-    anticipatePin: 1,
-    onUpdate: (self) => {
-      if (self.progress <= 0.5) {
-        gsap.set(scrollSection, {
-          x: `${(1 - self.progress * 2) * 100}%`,
-        });
-      } else {
-        const slideUpProgress = (self.progress - 0.5) * 2;
-        gsap.set(heroRef, {
-          y: `-${slideUpProgress * 100}%`,
-        });
+    const slideLeftText = hero.querySelector('.slide-left h3');
+    if (!slideLeftText) {
+      console.log('Slide left text not found');
+      return;
+    }
+
+    // Initial animation
+    gsap.fromTo(
+      slideLeftText,
+      { x: '-200%', opacity: 0 },
+      {
+        x: '0%',
+        opacity: 1,
+        duration: 1,
+        ease: 'power2.out',
+        onComplete: () => {
+          console.log('Initial hero animation complete');
+          setupScrollAnimations(hero, scroll, animationCompletedRef, onAnimationComplete);
+        }
       }
-    },
-    onLeave: () => {
-      gsap.set(heroRef, { y: '-100%' });
-      onComplete();
-    },
-    onLeaveBack: () => {
-      gsap.set(heroRef, { y: '0%' });
+    );
+
+    // We don't need to remove the event listener here anymore
+    // as it's handled within setupScrollAnimations
+  }, [onAnimationComplete]);
+
+  return { heroRef, scrollRef };
+};
+const setupScrollAnimations = (
+  heroContainer: HTMLElement, 
+  scrollText: HTMLElement, 
+  animationCompletedRef: React.MutableRefObject<boolean>,
+  onAnimationComplete?: () => void
+) => {
+  console.log('Setting up scroll animations');
+  
+  let scrollProgress = 0;
+  const maxScroll = 100;
+
+  const updateAnimation = () => {
+    if (scrollProgress <= 100) {
+      // Stage 1: Move the text
+      gsap.set(scrollText, { x: `${100 - scrollProgress}%` });
     }
-  });
+
+    console.log('Scroll progress:', scrollProgress);
+    
+    if (scrollProgress >= 100 && !animationCompletedRef.current) {
+      animationCompletedRef.current = true;
+      
+      // Animate the hero section upwards
+      gsap.to(heroContainer, {
+        y: '-100%',
+        duration: 1,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          onAnimationComplete?.();
+          console.log('Hero animation complete, triggering next section');
+          document.removeEventListener('wheel', wheelHandler);
+          document.body.style.overflow = 'auto';
+        }
+      });
+    }
+  };
+
+  const wheelHandler = (e: WheelEvent) => {
+    e.preventDefault();
+    scrollProgress = Math.min(scrollProgress + Math.abs(e.deltaY) / 4, maxScroll);
+    updateAnimation();
+  };
+
+  document.addEventListener('wheel', wheelHandler, { passive: false });
 };

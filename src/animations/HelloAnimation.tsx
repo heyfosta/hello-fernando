@@ -1,5 +1,5 @@
 //src/animations/HelloAnimation.tsx
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { TextPlugin } from 'gsap/TextPlugin';
 
@@ -12,6 +12,10 @@ const HelloAnimation: React.FC<HelloAnimationProps> = ({ onComplete }) => {
   const animationRef = useRef<HTMLDivElement>(null);
   const topHalfRef = useRef<HTMLDivElement>(null);
   const bottomHalfRef = useRef<HTMLDivElement>(null);
+
+  const handleAnimationComplete = useCallback(() => {
+    onComplete();
+  }, [onComplete]);
 
 
   useEffect(() => {
@@ -80,7 +84,7 @@ gsap.timeline()
     duration: 1.5,
     y: (index) => (index === 0 ? '-100%' : '100%'),
     ease: 'power2.inOut',
-    onComplete: onComplete,
+    onComplete: handleAnimationComplete,
   });
                    
                   },
@@ -95,7 +99,7 @@ gsap.timeline()
     return () => {
       timeline.kill(); 
     };
-  }, []); 
+  }, [handleAnimationComplete]); 
 
   return (
     <div className="fixed inset-0 z-50 pointer-events-none font-bebas">
