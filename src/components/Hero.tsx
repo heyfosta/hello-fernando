@@ -1,12 +1,13 @@
-
-//src/components/Hero.tsx
+// src/components/Hero.tsx
 import React from 'react';
 import { useHeroAnimation } from '../animations/HeroAnimation';
-import { HeroProps } from '../types/SectionTypes';
 
+interface HeroProps {
+  onAnimationComplete?: () => void;
+}
 
-const Hero: React.FC<HeroProps> = ({ onComplete }) => {
-  const { heroRef, scrollRef } = useHeroAnimation(onComplete);
+const Hero: React.FC<HeroProps> = ({ onAnimationComplete }) => {
+  const { heroRef, scrollRef } = useHeroAnimation(onAnimationComplete);
 
   return (
     <div ref={heroRef} className="hero-container h-screen bg-[#eebe4e] text-black flex flex-col justify-between items-start py-16 px-8 sm:px-16 w-full">
