@@ -6,64 +6,76 @@ import Experience from './components/Experience';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import { SectionWrapper } from './components/SectionWrapper';
+import { useColorTransition } from './hooks/useColorTransition';
+import { useSnapScroll } from './hooks/useSnapScroll';
 
 const App: React.FC = () => {
-  const [currentSection, setCurrentSection] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [isHeroAnimationComplete, setIsHeroAnimationComplete] = useState(false);
 
   const handleHeroAnimationComplete = useCallback(() => {
     setIsHeroAnimationComplete(true);
-    setCurrentSection(1);  // Move to the next section after hero animation
   }, []);
 
   const sections = useMemo(() => [
-    { Component: Hero, props: { onAnimationComplete: handleHeroAnimationComplete } },
-    { Component: About },
-    { Component: Experience },
-    { Component: Projects },
-    { Component: Contact },
+    { 
+      Component: Hero, 
+      props: { 
+        onAnimationComplete: handleHeroAnimationComplete, 
+        startColor: '#FF9933', 
+        endColor: '#66CC99',
+        color: '#FF9933'  // Add this line
+      }, 
+      color: '#FF9933' 
+    },
+    { Component: About, props: { color: '#66CC99' }, color: '#66CC99' },
+    { Component: Experience, props: { color: '#FF6B6B' }, color: '#FF6B6B' },
+    { Component: Projects, props: { color: '#4ECDC4' }, color: '#4ECDC4' },
+    { Component: Contact, props: { color: '#FFCC00' }, color: '#FFCC00' },
   ], [handleHeroAnimationComplete]);
 
-  useEffect(() => {
-    if (!isHeroAnimationComplete) return;
+  const { currentSection, scrollProgress, setCurrentSection } = useSnapScroll({
+    sectionCount: sections.length,
+    isEnabled: isHeroAnimationComplete,
+    initialSection: 0,
+    scrollSensitivity: 0.5,
+    snapThreshold: 70,
+  });
 
+// Add this state to track if we're transitioning from the hero
+const [isTransitioningFromHero, setIsTransitioningFromHero] = useState(true);
 
-    let accumulatedDelta = 0;
-    const scrollSensitivity = 0.1;  // Reduced sensitivity
-    const threshold = 80;  // Increased threshold
-    
-    const handleScroll = (event: WheelEvent) => {
-      event.preventDefault();
-    
-      accumulatedDelta += event.deltaY * scrollSensitivity;
-      accumulatedDelta = Math.max(-150, Math.min(150, accumulatedDelta));  // Increased range
-    
-      if (accumulatedDelta > threshold && currentSection < sections.length - 1) {
-        setCurrentSection(prev => prev + 1);
-        accumulatedDelta = 0;
-      } else if (accumulatedDelta < -threshold && currentSection > 0) {
-        setCurrentSection(prev => prev - 1);
-        accumulatedDelta = 0;
-      }
-    
-      setScrollProgress(accumulatedDelta / 1.5);  // Smoothed out progress
-    };
+// Modify the effect
+useEffect(() => {
+  if (isHeroAnimationComplete) {
+    setCurrentSection(1);
+    // Set a timeout to allow for the transition
+    setTimeout(() => setIsTransitioningFromHero(false), 500);
+  }
+}, [isHeroAnimationComplete, setCurrentSection]);
 
-    window.addEventListener('wheel', handleScroll, { passive: false });
+// Modify the color selection logic
+const currentColor = isTransitioningFromHero 
+  ? sections[0].color 
+  : sections[Math.max(currentSection - 1, 0)].color;
+const nextColor = sections[currentSection].color;
 
-    return () => {
-      window.removeEventListener('wheel', handleScroll);
-    };
-  }, [currentSection, sections.length, isHeroAnimationComplete]);
+  // // Adjust the color selection here
+  // const currentColor = sections[Math.max(currentSection - 1, 0)].color;
+  // const nextColor = sections[currentSection].color;
+  const transitionedColor = useColorTransition(currentColor, nextColor, 500);
+
+  const gradientStyle = {
+    backgroundImage: `linear-gradient(to bottom, ${transitionedColor} ${(1 - scrollProgress / 100) * 100}%, ${nextColor} 100%)`,
+    transition: 'background-image 0.3s ease-out',
+  };
 
   return (
-    <div className="relative h-screen overflow-hidden">
+    <div className="relative h-screen overflow-hidden" style={gradientStyle}>
       <div className="sections-stack relative h-full">
         {sections.map(({ Component, props }, index) => (
-          <SectionWrapper 
-            key={index} 
-            index={index} 
+          <SectionWrapper
+            key={index}
+            index={index}
             currentSection={currentSection}
             scrollProgress={scrollProgress}
           >

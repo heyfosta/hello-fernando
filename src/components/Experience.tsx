@@ -4,7 +4,7 @@ import { ExperienceProps } from '../types/SectionTypes';
 
 const Experience: React.FC<ExperienceProps> = ({ onComplete }) => {
   return (
-    <section className="h-screen bg-[#4ECDC4] text-white flex items-center justify-center">
+    <section className="h-screen text-white flex items-center justify-center">
       <div className="container mx-auto px-4">
         <h2 className="text-5xl font-bold mb-12 text-center">Work Experience</h2>
         <ul className="space-y-12">

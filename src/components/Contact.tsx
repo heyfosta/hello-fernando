@@ -4,7 +4,7 @@ import { ContactProps } from '../types/SectionTypes';
 
 const Contact: React.FC<ContactProps> = () => {
   return (
-    <section className="h-screen bg-[#FF9FF3] text-white flex items-center justify-center">
+    <section className="h-screen  text-white flex items-center justify-center">
       <div className="container mx-auto px-4">
         <h2 className="text-5xl font-bold mb-12 text-center">Contact Me</h2>
         <div className="bg-white text-[#FF9FF3] p-8 rounded-lg shadow-lg max-w-md mx-auto">

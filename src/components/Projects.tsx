@@ -4,7 +4,7 @@ import { ProjectsProps } from '../types/SectionTypes';
 
 const Projects: React.FC<ProjectsProps> = () => {
   return (
-    <section className="h-screen bg-[#45B7D1] text-white flex items-center justify-center">
+    <section className="h-screen  text-white flex items-center justify-center">
       <div className="container mx-auto px-4">
         <h2 className="text-5xl font-bold mb-12 text-center">Projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

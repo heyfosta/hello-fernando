@@ -3,7 +3,7 @@ import React from 'react';
 
 const About: React.FC = () => {
   return (
-    <section className="h-screen bg-[#FF6B6B] text-white flex items-center justify-center">
+    <section className="h-screen text-white flex items-center justify-center">
       <div className="container mx-auto">
         <h2 className="text-5xl font-bold mb-8 text-center">About Me</h2>
         <p className="text-2xl mb-8 text-center max-w-2xl mx-auto">

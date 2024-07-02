@@ -10,7 +10,7 @@ const Hero: React.FC<HeroProps> = ({ onAnimationComplete }) => {
   const { heroRef, scrollRef } = useHeroAnimation(onAnimationComplete);
 
   return (
-    <div ref={heroRef} className="hero-container h-screen bg-[#eebe4e] text-black flex flex-col justify-between items-start py-16 px-8 sm:px-16 w-full">
+    <div ref={heroRef} className="hero-container h-screen  text-black flex flex-col justify-between items-start py-16 px-8 sm:px-16 w-full">
       <div className="container mx-auto 2xl:max-w-[2000px]">
         <div className="mb-8">
           <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-10xl 2xl:text-11xl font-bold whitespace-nowrap">
