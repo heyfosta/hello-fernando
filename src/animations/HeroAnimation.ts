@@ -1,10 +1,23 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 
-export const useHeroAnimation = (isHelloAnimationComplete: boolean, onAnimationComplete?: () => void) => {
+interface UseHeroAnimationProps {
+  isHelloAnimationComplete: boolean;
+  onAnimationComplete?: () => void;
+  initialColor: string;
+  finalColor: string;
+}
+
+export const useHeroAnimation = ({
+  isHelloAnimationComplete,
+  onAnimationComplete,
+  initialColor,
+  finalColor
+}: UseHeroAnimationProps) => {
   const heroRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const animationCompletedRef = useRef(false);
+  const [backgroundColor, setBackgroundColor] = useState(initialColor);
 
   useEffect(() => {
     console.log('HeroAnimation effect running');
@@ -32,11 +45,20 @@ export const useHeroAnimation = (isHelloAnimationComplete: boolean, onAnimationC
           setupScrollAnimations(hero, scroll, animationCompletedRef, onAnimationComplete);
         }
       });
+
+      // Animate background color
+      gsap.to(hero, {
+        backgroundColor: finalColor,
+        duration: 1,
+        ease: 'power2.inOut',
+        onUpdate: () => {
+          setBackgroundColor(gsap.getProperty(hero, 'backgroundColor') as string);
+        }
+      });
     }
+  }, [isHelloAnimationComplete, onAnimationComplete, finalColor]);
 
-  }, [isHelloAnimationComplete, onAnimationComplete]);
-
-  return { heroRef, scrollRef };
+  return { heroRef, scrollRef, backgroundColor };
 };
 
 const setupScrollAnimations = (

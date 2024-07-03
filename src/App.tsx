@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
-import Hero, { HeroProps } from './components/Hero';
+import Hero from './components/Hero';
 import About from './components/About';
 import Experience from './components/Experience';
 import Projects from './components/Projects';
@@ -9,7 +9,12 @@ import { useColorTransition } from './hooks/useColorTransition';
 import { useSnapScroll } from './hooks/useSnapScroll';
 import HelloAnimation from './animations/HelloAnimation';
 
-type SectionProps = HeroProps | { color: string };
+type SectionProps = {
+  onAnimationComplete?: () => void;
+  isHelloAnimationComplete?: boolean;
+  initialColor?: string;
+  finalColor?: string;
+};
 
 interface Section {
   Component: React.ComponentType<any>;
@@ -29,10 +34,8 @@ const App: React.FC = () => {
   }, []);
 
   const handleHeroAnimationComplete = useCallback(() => {
-    if (isHelloAnimationComplete) {
-      setIsHeroAnimationComplete(true);
-    }
-  }, [isHelloAnimationComplete]);
+    setIsHeroAnimationComplete(true);
+  }, []);
 
   const sections: Section[] = useMemo(() => [
     { 
@@ -40,18 +43,16 @@ const App: React.FC = () => {
       props: { 
         onAnimationComplete: handleHeroAnimationComplete, 
         isHelloAnimationComplete: isHelloAnimationComplete,
-        startColor: '#FF9933', 
-        endColor: '#66CC99',
-        color: '#FF9933'
+        initialColor: '#FF9933', 
+        finalColor: '#FFCC00',
       }, 
-      color: '#FF9933' 
+      color: '#FFCC00' 
     },
     { Component: About, props: { color: '#66CC99' }, color: '#66CC99' },
     { Component: Experience, props: { color: '#FF6B6B' }, color: '#FF6B6B' },
     { Component: Projects, props: { color: '#4ECDC4' }, color: '#4ECDC4' },
     { Component: Contact, props: { color: '#FFCC00' }, color: '#FFCC00' },
   ], [handleHeroAnimationComplete, isHelloAnimationComplete]);
-
 
   const { currentSection, scrollProgress, setCurrentSection } = useSnapScroll({
     sectionCount: sections.length,
@@ -79,41 +80,27 @@ const App: React.FC = () => {
     transition: 'background-image 0.3s ease-out',
   };
 
- 
   return (
     <>
-      {showHelloAnimation ? (
+      {showHelloAnimation && (
         <HelloAnimation onComplete={handleHelloAnimationComplete}>
-          <div className="relative h-screen overflow-hidden" style={gradientStyle}>
-            <SectionWrapper
-              index={0}
-              currentSection={currentSection}
-              scrollProgress={scrollProgress}
-            >
-              <Hero 
-                onAnimationComplete={handleHeroAnimationComplete}
-                isHelloAnimationComplete={isHelloAnimationComplete}
-                startColor="#FF9933"
-                endColor="#66CC99"
-                color="#FF9933"
-              />
-            </SectionWrapper>
+          <div className="hello-content">
+            {/* Add any content you want to show during the hello animation */}
           </div>
         </HelloAnimation>
-      ) : (
-        <div className="relative h-screen overflow-hidden" style={gradientStyle}>
-          {sections.map(({ Component, props }, index) => (
-            <SectionWrapper
-              key={index}
-              index={index}
-              currentSection={currentSection}
-              scrollProgress={scrollProgress}
-            >
-              <Component {...props} />
-            </SectionWrapper>
-          ))}
-        </div>
       )}
+      <div className="relative h-screen overflow-hidden" style={gradientStyle}>
+        {sections.map(({ Component, props }, index) => (
+          <SectionWrapper
+            key={index}
+            index={index}
+            currentSection={currentSection}
+            scrollProgress={scrollProgress}
+          >
+            <Component {...props} />
+          </SectionWrapper>
+        ))}
+      </div>
     </>
   );
 };
