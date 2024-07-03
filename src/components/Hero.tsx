@@ -1,16 +1,19 @@
-// src/components/Hero.tsx
 import React from 'react';
 import { useHeroAnimation } from '../animations/HeroAnimation';
 
-interface HeroProps {
-  onAnimationComplete?: () => void;
+export interface HeroProps {
+  onAnimationComplete: () => void;
+  isHelloAnimationComplete: boolean;
+  startColor: string;
+  endColor: string;
+  color: string;
 }
 
-const Hero: React.FC<HeroProps> = ({ onAnimationComplete }) => {
-  const { heroRef, scrollRef } = useHeroAnimation(onAnimationComplete);
+const Hero: React.FC<HeroProps> = ({ onAnimationComplete, isHelloAnimationComplete, startColor, endColor, color }) => {
+  const { heroRef, scrollRef } = useHeroAnimation(isHelloAnimationComplete, onAnimationComplete);
 
   return (
-    <div ref={heroRef} className="hero-container h-screen  text-black flex flex-col justify-between items-start py-16 px-8 sm:px-16 w-full">
+    <div ref={heroRef} className="hero-container h-screen text-black flex flex-col justify-between items-start py-16 px-8 sm:px-16 w-full">
       <div className="container mx-auto 2xl:max-w-[2000px]">
         <div className="mb-8">
           <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-10xl 2xl:text-11xl font-bold whitespace-nowrap">
@@ -23,7 +26,7 @@ const Hero: React.FC<HeroProps> = ({ onAnimationComplete }) => {
           </h2>
         </div>
         <div className="slide-left mb-16">
-          <h3 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 2xl:text-10xl font-bold whitespace-nowrap">
+          <h3 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 2xl:text-10xl font-bold whitespace-nowrap" style={{ transform: 'translateX(-100%)' }}>
             I build things for the web.
           </h3>
         </div>

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
-import Hero from './components/Hero';
+import Hero, { HeroProps } from './components/Hero';
 import About from './components/About';
 import Experience from './components/Experience';
 import Projects from './components/Projects';
@@ -9,27 +9,37 @@ import { useColorTransition } from './hooks/useColorTransition';
 import { useSnapScroll } from './hooks/useSnapScroll';
 import HelloAnimation from './animations/HelloAnimation';
 
+type SectionProps = HeroProps | { color: string };
+
+interface Section {
+  Component: React.ComponentType<any>;
+  props: SectionProps;
+  color: string;
+}
 
 const App: React.FC = () => {
   const [isHeroAnimationComplete, setIsHeroAnimationComplete] = useState(false);
   const [showHelloAnimation, setShowHelloAnimation] = useState(true);
   const [isTransitioningFromHero, setIsTransitioningFromHero] = useState(true);
+  const [isHelloAnimationComplete, setIsHelloAnimationComplete] = useState(false);
 
   const handleHelloAnimationComplete = useCallback(() => {
     setShowHelloAnimation(false);
+    setIsHelloAnimationComplete(true);
   }, []);
 
   const handleHeroAnimationComplete = useCallback(() => {
-    if (!showHelloAnimation) {
+    if (isHelloAnimationComplete) {
       setIsHeroAnimationComplete(true);
     }
-  }, [showHelloAnimation]);
+  }, [isHelloAnimationComplete]);
 
-  const sections = useMemo(() => [
+  const sections: Section[] = useMemo(() => [
     { 
       Component: Hero, 
       props: { 
         onAnimationComplete: handleHeroAnimationComplete, 
+        isHelloAnimationComplete: isHelloAnimationComplete,
         startColor: '#FF9933', 
         endColor: '#66CC99',
         color: '#FF9933'
@@ -40,7 +50,8 @@ const App: React.FC = () => {
     { Component: Experience, props: { color: '#FF6B6B' }, color: '#FF6B6B' },
     { Component: Projects, props: { color: '#4ECDC4' }, color: '#4ECDC4' },
     { Component: Contact, props: { color: '#FFCC00' }, color: '#FFCC00' },
-  ], [handleHeroAnimationComplete]);
+  ], [handleHeroAnimationComplete, isHelloAnimationComplete]);
+
 
   const { currentSection, scrollProgress, setCurrentSection } = useSnapScroll({
     sectionCount: sections.length,
@@ -68,6 +79,7 @@ const App: React.FC = () => {
     transition: 'background-image 0.3s ease-out',
   };
 
+ 
   return (
     <>
       {showHelloAnimation ? (
@@ -78,7 +90,13 @@ const App: React.FC = () => {
               currentSection={currentSection}
               scrollProgress={scrollProgress}
             >
-              <Hero onAnimationComplete={handleHeroAnimationComplete} />
+              <Hero 
+                onAnimationComplete={handleHeroAnimationComplete}
+                isHelloAnimationComplete={isHelloAnimationComplete}
+                startColor="#FF9933"
+                endColor="#66CC99"
+                color="#FF9933"
+              />
             </SectionWrapper>
           </div>
         </HelloAnimation>

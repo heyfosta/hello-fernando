@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 
-export const useHeroAnimation = (onAnimationComplete?: () => void) => {
+export const useHeroAnimation = (isHelloAnimationComplete: boolean, onAnimationComplete?: () => void) => {
   const heroRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const animationCompletedRef = useRef(false);
@@ -21,28 +21,24 @@ export const useHeroAnimation = (onAnimationComplete?: () => void) => {
       return;
     }
 
-    // Initial animation
-    gsap.fromTo(
-      slideLeftText,
-      { x: '-200%', opacity: 0 },
-      {
+    if (isHelloAnimationComplete && !animationCompletedRef.current) {
+      // Animate the "I build things for the web" text
+      gsap.to(slideLeftText, {
         x: '0%',
-        opacity: 1,
         duration: 1,
         ease: 'power2.out',
         onComplete: () => {
-          console.log('Initial hero animation complete');
+          console.log('Slide left animation complete');
           setupScrollAnimations(hero, scroll, animationCompletedRef, onAnimationComplete);
         }
-      }
-    );
+      });
+    }
 
-    // We don't need to remove the event listener here anymore
-    // as it's handled within setupScrollAnimations
-  }, [onAnimationComplete]);
+  }, [isHelloAnimationComplete, onAnimationComplete]);
 
   return { heroRef, scrollRef };
 };
+
 const setupScrollAnimations = (
   heroContainer: HTMLElement, 
   scrollText: HTMLElement, 
