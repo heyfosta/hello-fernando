@@ -19,3 +19,9 @@ export interface Section<T extends SectionProps = SectionProps> {
   Component: SectionComponent<T>;
   props: T;
 }
+
+export interface HeroProps extends CommonSectionProps {
+    startColor?: string;
+    endColor?: string;
+    color?: string;
+  }
