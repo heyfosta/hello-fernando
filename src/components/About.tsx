@@ -1,5 +1,9 @@
 // src/components/About.tsx
 import React from 'react';
+import Skill from '../components/UI/Skill';
+
+const skills = ['React', 'TypeScript', 'JavaScript', 'HTML/CSS', 'Python', 'SQL', 'NODE.JS'
+];
 
 const About: React.FC = () => {
   return (
@@ -10,10 +14,9 @@ const About: React.FC = () => {
           Hi, I'm John Doe, a web developer with expertise in React, TypeScript, and more.
         </p>
         <ul className="flex justify-center space-x-4 flex-wrap">
-          <li className="bg-white text-[#FF6B6B] px-6 py-3 rounded-full text-xl m-2 font-bold">React</li>
-          <li className="bg-white text-[#FF6B6B] px-6 py-3 rounded-full text-xl m-2 font-bold">TypeScript</li>
-          <li className="bg-white text-[#FF6B6B] px-6 py-3 rounded-full text-xl m-2 font-bold">JavaScript</li>
-          <li className="bg-white text-[#FF6B6B] px-6 py-3 rounded-full text-xl m-2 font-bold">HTML/CSS</li>
+          {skills.map((skill, index) => (
+            <Skill key={index} name={skill} />
+          ))}
         </ul>
       </div>
     </section>
