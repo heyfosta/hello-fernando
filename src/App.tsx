@@ -18,7 +18,7 @@ type SectionProps = {
 
 interface Section {
   Component: React.ComponentType<any>;
-  props: SectionProps;
+  props: SectionProps & { experiences?: any[] };
   color: string;
 }
 
@@ -49,7 +49,31 @@ const App: React.FC = () => {
       color: '#FFCC00' 
     },
     { Component: About, props: { color: '#66CC99' }, color: '#66CC99' },
-    { Component: Experience, props: { color: '#FF6B6B' }, color: '#FF6B6B' },
+    { 
+      Component: Experience, 
+      props: { 
+        color: '#FF6B6B',
+        experiences: [
+          {
+            companyName: "Company A",
+            companyUrl: "https://companya.com",
+            position: "Software Developer",
+            dateRange: "Jan 2020 - Present",
+            description: "Worked on various projects including web applications and mobile apps. Led a team of 3 junior developers."
+          },
+          {
+            companyName: "Company B",
+            companyUrl: "https://companyb.com",
+            position: "Junior Developer",
+            dateRange: "Jun 2018 - Dec 2019",
+            description: "Assisted in developing and maintaining the company's main product. Learned and implemented best practices in software development."
+          },
+          
+          // Add more experiences as needed
+        ]
+      }, 
+      color: '#FF6B6B' 
+    },
     { Component: Projects, props: { color: '#4ECDC4' }, color: '#4ECDC4' },
     { Component: Contact, props: { color: '#FFCC00' }, color: '#FFCC00' },
   ], [handleHeroAnimationComplete, isHelloAnimationComplete]);
@@ -78,6 +102,7 @@ const App: React.FC = () => {
   const gradientStyle = {
     backgroundImage: `linear-gradient(to bottom, ${transitionedColor} ${(1 - scrollProgress / 100) * 100}%, ${nextColor} 100%)`,
     transition: 'background-image 0.3s ease-out',
+    minHeight: '100vh', 
   };
 
   return (

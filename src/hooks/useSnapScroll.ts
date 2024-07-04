@@ -31,13 +31,34 @@ export const useSnapScroll = ({
     if (!isEnabled) return;
 
     let accumulatedDelta = 0;
+    let touchStartY = 0;
 
-    const handleScroll = (event: WheelEvent) => {
+    const handleWheel = (event: WheelEvent) => {
       if (isSnapping) return;
       event.preventDefault();
 
       accumulatedDelta += event.deltaY * scrollSensitivity;
-      let newScrollProgress = accumulatedDelta / window.innerHeight * 100;
+      handleScroll(accumulatedDelta);
+    };
+
+    const handleTouchStart = (event: TouchEvent) => {
+      touchStartY = event.touches[0].clientY;
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+      if (isSnapping) return;
+      event.preventDefault();
+
+      const touchEndY = event.touches[0].clientY;
+      const deltaY = touchStartY - touchEndY;
+      accumulatedDelta += deltaY * scrollSensitivity;
+      handleScroll(accumulatedDelta);
+
+      touchStartY = touchEndY;
+    };
+
+    const handleScroll = (delta: number) => {
+      let newScrollProgress = delta / window.innerHeight * 100;
 
       if (newScrollProgress > snapThreshold && currentSection < sectionCount - 1) {
         snapToSection(currentSection + 1);
@@ -50,10 +71,14 @@ export const useSnapScroll = ({
       }
     };
 
-    window.addEventListener('wheel', handleScroll, { passive: false });
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('touchstart', handleTouchStart, { passive: false });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
 
     return () => {
-      window.removeEventListener('wheel', handleScroll);
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
     };
   }, [currentSection, sectionCount, isSnapping, snapToSection, scrollSensitivity, snapThreshold, isEnabled]);
 

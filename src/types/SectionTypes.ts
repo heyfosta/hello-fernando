@@ -25,3 +25,15 @@ export interface HeroProps extends CommonSectionProps {
     endColor?: string;
     color?: string;
   }
+
+
+  export interface ExperienceProps {
+    experiences: {
+      companyName: string;
+      companyUrl: string;
+      position: string;
+      dateRange: string;
+      description: string;
+    }[];
+    onComplete?: () => void;
+  }
