@@ -1,5 +1,6 @@
 // src/components/UI/ExperienceCard.tsx
 import React from 'react';
+import Card from './Card';
 
 interface ExperienceCardProps {
   companyName: string;
@@ -17,7 +18,7 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
   description
 }) => {
   return (
-    <div className="bg-white text-[#4ECDC4] p-3 sm:p-4 md:p-6 rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105">
+    <Card className="text-[#4ECDC4] p-3 sm:p-4 md:p-6 hover:scale-105">
       <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 sm:mb-2">
         <a 
           href={companyUrl} 
@@ -30,7 +31,7 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
       </h3>
       <p className="text-lg sm:text-xl mb-1 sm:mb-2 font-semibold">{position}, {dateRange}</p>
       <p className="text-sm sm:text-base md:text-lg">{description}</p>
-    </div>
+    </Card>
   );
 };
 
