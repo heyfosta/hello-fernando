@@ -18,7 +18,7 @@ type SectionProps = {
 
 interface Section {
   Component: React.ComponentType<any>;
-  props: SectionProps & { experiences?: any[] };
+  props: SectionProps & { experiences?: any[], setIsProjectExpanded?: React.Dispatch<React.SetStateAction<boolean>> };
   color: string;
 }
 
@@ -27,6 +27,7 @@ const App: React.FC = () => {
   const [showHelloAnimation, setShowHelloAnimation] = useState(true);
   const [isTransitioningFromHero, setIsTransitioningFromHero] = useState(true);
   const [isHelloAnimationComplete, setIsHelloAnimationComplete] = useState(false);
+  const [isProjectExpanded, setIsProjectExpanded] = useState(false);
 
   const handleHelloAnimationComplete = useCallback(() => {
     setShowHelloAnimation(false);
@@ -68,19 +69,24 @@ const App: React.FC = () => {
             dateRange: "Jun 2018 - Dec 2019",
             description: "Assisted in developing and maintaining the company's main product. Learned and implemented best practices in software development."
           },
-          
-          // Add more experiences as needed
         ]
       }, 
       color: '#FF6B6B' 
     },
-    { Component: Projects, props: { color: '#4ECDC4' }, color: '#4ECDC4' },
+    { 
+      Component: Projects, 
+      props: { 
+        color: '#4ECDC4',
+        setIsProjectExpanded
+      }, 
+      color: '#4ECDC4' 
+    },
     { Component: Contact, props: { color: '#FFCC00' }, color: '#FFCC00' },
-  ], [handleHeroAnimationComplete, isHelloAnimationComplete]);
+  ], [handleHeroAnimationComplete, isHelloAnimationComplete, setIsProjectExpanded]);
 
   const { currentSection, scrollProgress, setCurrentSection } = useSnapScroll({
     sectionCount: sections.length,
-    isEnabled: isHeroAnimationComplete,
+    isEnabled: isHeroAnimationComplete && !isProjectExpanded,
     initialSection: 0,
     scrollSensitivity: 0.5,
     snapThreshold: 70,

@@ -1,3 +1,4 @@
+// src/components/UI/ProjectCard.tsx
 import React from 'react';
 import Card from './Card';
 
@@ -5,25 +6,19 @@ interface ProjectCardProps {
   title: string;
   description: string;
   technologies: string[];
-  link?: string;
+  onClick: () => void;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
   description,
   technologies,
-  link
+  onClick
 }) => {
   return (
-    <Card className="text-[#4ECDC4] p-3 sm:p-4 md:p-6 hover:scale-105">
+    <Card className="text-[#4ECDC4] p-3 sm:p-4 md:p-6 hover:scale-105 cursor-pointer" onClick={onClick}>
       <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 sm:mb-2">
-        {link ? (
-          <a href={link} target="_blank" rel="noopener noreferrer" className="hover:underline">
-            {title}
-          </a>
-        ) : (
-          title
-        )}
+        {title}
       </h3>
       <p className="text-sm sm:text-base md:text-lg mb-2">{description}</p>
       <div className="flex flex-wrap gap-2">

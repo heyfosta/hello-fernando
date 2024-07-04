@@ -1,7 +1,6 @@
 // src/components/UI/ExperienceCard.tsx
 import React from 'react';
 import Card from './Card';
-
 interface ExperienceCardProps {
   companyName: string;
   companyUrl: string;
