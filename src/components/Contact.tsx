@@ -1,28 +1,80 @@
-// src/components/Contact.tsx
 import React from 'react';
 import { ContactProps } from '../types/SectionTypes';
+import Card from './UI/Card';
+import { EmailIcon, PhoneIcon, GitHubIcon, LinkedInIcon, DownloadIcon } from '../components/Icons/Icons';
+
+const TEXT_COLOR = 'text-gray-800'; 
+const BUTTON_TEXT_COLOR = 'text-gray-800'; 
 
 const Contact: React.FC<ContactProps> = () => {
-  return (
-    <section className="h-screen  text-white flex items-center justify-center">
-      <div className="container mx-auto px-4">
-        <h2 className="text-5xl font-bold mb-12 text-center">Contact Me</h2>
-        <div className="bg-white text-[#FF9FF3] p-8 rounded-lg shadow-lg max-w-md mx-auto">
-          <p className="text-2xl mb-6 text-center font-bold">You can reach me at:</p>
-          <ul className="space-y-4 text-xl">
-            <li className="flex items-center">
-              <svg className="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
-              john.doe@example.com
-            </li>
-            <li className="flex items-center">
-              <svg className="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
-              123-456-7890
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-  );
+    console.log('Email:', process.env.REACT_APP_EMAIL);
+    console.log('Phone:', process.env.REACT_APP_PHONE);
+    
+    return (
+        <section className={`h-screen ${TEXT_COLOR} flex items-center justify-center`}>
+            <div className="container mx-auto px-4">
+                <h2 className="text-5xl font-bold mb-12 text-center">Contact Me</h2>
+                <Card className={`p-8 max-w-md mx-auto hover:scale-105 transition-transform duration-300`}>
+                    <p className="text-2xl mb-6 text-center font-bold">You can reach me at:</p>
+                    <ul className="space-y-4 text-xl mb-8">
+                        <ContactItem 
+                            Icon={EmailIcon} 
+                            href={process.env.REACT_APP_EMAIL ? `mailto:${process.env.REACT_APP_EMAIL}` : undefined} 
+                            text={process.env.REACT_APP_EMAIL || 'Email'}
+                        />
+                        <ContactItem 
+                            Icon={PhoneIcon} 
+                            href={process.env.REACT_APP_PHONE ? `tel:${process.env.REACT_APP_PHONE}` : undefined} 
+                            text={process.env.REACT_APP_PHONE || 'Phone'}
+                        />
+                        <ContactItem 
+                            Icon={GitHubIcon} 
+                            href={process.env.REACT_APP_GITHUB_URL}
+                            text="GitHub"
+                        />
+                        <ContactItem 
+                            Icon={LinkedInIcon} 
+                            href={process.env.REACT_APP_LINKEDIN_URL}
+                            text="LinkedIn"
+                        />
+                    </ul>
+                    <div className="text-center">
+                        <a 
+                            href={process.env.REACT_APP_CV_PATH} 
+                            download 
+                            className={` ${BUTTON_TEXT_COLOR} py-2 px-4 rounded-full hover:bg-pink-500 transition-colors duration-300 inline-flex items-center`}
+                            onClick={(e) => {
+                                if (!process.env.REACT_APP_CV_PATH) {
+                                    e.preventDefault();
+                                    alert('CV is currently unavailable. Please try again later.');
+                                }
+                            }}
+                        >
+                            <DownloadIcon className={`w-5 h-5 mr-2 ${BUTTON_TEXT_COLOR}`} />
+                            Download CV
+                        </a>
+                    </div>
+                </Card>
+            </div>
+        </section>
+    );
 };
+
+interface ContactItemProps {
+    Icon: React.FC<React.SVGProps<SVGSVGElement>>;
+    href: string | undefined;
+    text: string;
+}
+
+const ContactItem: React.FC<ContactItemProps> = ({ Icon, href, text }) => (
+    <li className="flex items-center">
+        <Icon className={`w-6 h-6 mr-2 ${TEXT_COLOR}`} aria-hidden="true" />
+        {href ? (
+            <a href={href} target="_blank" rel="noopener noreferrer" className={TEXT_COLOR}>{text}</a>
+        ) : (
+            <span className={TEXT_COLOR}>{text}</span>
+        )}
+    </li>
+);
 
 export default Contact;
