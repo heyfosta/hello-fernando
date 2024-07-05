@@ -8,6 +8,9 @@ import { SectionWrapper } from './components/SectionWrapper';
 import { useColorTransition } from './hooks/useColorTransition';
 import { useSnapScroll } from './hooks/useSnapScroll';
 import HelloAnimation from './animations/HelloAnimation';
+import FallingWords from './components/FallingWords';
+
+
 
 type SectionProps = {
   onAnimationComplete?: () => void;
@@ -31,6 +34,7 @@ const App: React.FC = () => {
   const [isTransitioningFromHero, setIsTransitioningFromHero] = useState(true);
   const [isHelloAnimationComplete, setIsHelloAnimationComplete] = useState(false);
   const [isProjectExpanded, setIsProjectExpanded] = useState(false);
+  const [showFallingWords, setShowFallingWords] = useState(false);
 
   const handleHelloAnimationComplete = useCallback(() => {
     setShowHelloAnimation(false);
@@ -39,6 +43,11 @@ const App: React.FC = () => {
 
   const handleHeroAnimationComplete = useCallback(() => {
     setIsHeroAnimationComplete(true);
+    setShowFallingWords(true);
+  }, []);
+
+  const handleFallingWordsComplete = useCallback(() => {
+    setShowFallingWords(false);
   }, []);
 
   const handleProjectExpanded = useCallback((expanded: boolean) => {
@@ -142,6 +151,9 @@ const App: React.FC = () => {
           </SectionWrapper>
         ))}
       </div>
+      {showFallingWords && (
+        <FallingWords isActive={showFallingWords} onAnimationComplete={handleFallingWordsComplete} />
+      )}
     </>
   );
 };

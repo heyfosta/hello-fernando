@@ -70,9 +70,9 @@ const setupScrollAnimations = (
   console.log('Setting up scroll animations');
 
   const wordSpans = scrollText.querySelectorAll('span');
-  
+
   let scrollProgress = 0;
-  const maxScroll = 162; // Increased to 300 for more granular control
+  const maxScroll = 162;
 
   const updateAnimation = () => {
     let allWordsFullyVisible = true;
@@ -80,7 +80,7 @@ const setupScrollAnimations = (
     wordSpans.forEach((span, index) => {
       const delay = index * 0.1;
       const progress = Math.max(0, Math.min(1, (scrollProgress - delay * 50) / 100));
-      
+
       gsap.to(span, {
         x: `${100 - progress * 100}%`,
         opacity: progress,
@@ -99,21 +99,29 @@ const setupScrollAnimations = (
     if (scrollProgress >= maxScroll && allWordsFullyVisible && !animationCompletedRef.current) {
       animationCompletedRef.current = true;
 
-      // Add a small delay before transitioning to the next section
-      setTimeout(() => {
-        // Animate the hero section upwards
-        gsap.to(heroContainer, {
-          y: '-100%',
-          duration: 1,
-          ease: 'power2.inOut',
-          onComplete: () => {
-            onAnimationComplete?.();
-            console.log('Hero animation complete, triggering next section');
-            document.removeEventListener('wheel', wheelHandler);
-            document.body.style.overflow = 'auto';
-          }
-        });
-      }, 500); // 500ms delay
+      // Parallax effect with words shooting down
+      gsap.to(wordSpans, {
+        y: '100vh',
+        opacity: 0,
+        scale: 0.5,
+        stagger: 0.05,
+        ease: 'power3.in',
+        duration: 1.5
+      });
+
+      // Animate the hero section upwards
+      gsap.to(heroContainer, {
+        y: '-100%',
+        duration: 1.5,
+        ease: 'power2.inOut',
+        delay: 0.5,
+        onComplete: () => {
+          onAnimationComplete?.();
+          console.log('Hero animation complete, triggering next section');
+          document.removeEventListener('wheel', wheelHandler);
+          document.body.style.overflow = 'auto';
+        }
+      });
     }
   };
 
