@@ -18,7 +18,10 @@ type SectionProps = {
 
 interface Section {
   Component: React.ComponentType<any>;
-  props: SectionProps & { experiences?: any[], setIsProjectExpanded?: React.Dispatch<React.SetStateAction<boolean>> };
+  props: SectionProps & { 
+    experiences?: any[];
+    setIsProjectExpanded?: (expanded: boolean) => void;
+  };
   color: string;
 }
 
@@ -36,6 +39,10 @@ const App: React.FC = () => {
 
   const handleHeroAnimationComplete = useCallback(() => {
     setIsHeroAnimationComplete(true);
+  }, []);
+
+  const handleProjectExpanded = useCallback((expanded: boolean) => {
+    setIsProjectExpanded(expanded);
   }, []);
 
   const sections: Section[] = useMemo(() => [
@@ -77,12 +84,12 @@ const App: React.FC = () => {
       Component: Projects, 
       props: { 
         color: '#4ECDC4',
-        setIsProjectExpanded
+        setIsProjectExpanded: handleProjectExpanded
       }, 
       color: '#4ECDC4' 
     },
     { Component: Contact, props: { color: '#FFCC00' }, color: '#FFCC00' },
-  ], [handleHeroAnimationComplete, isHelloAnimationComplete, setIsProjectExpanded]);
+  ], [handleHeroAnimationComplete, isHelloAnimationComplete, handleProjectExpanded]);
 
   const { currentSection, scrollProgress, setCurrentSection } = useSnapScroll({
     sectionCount: sections.length,
@@ -120,7 +127,10 @@ const App: React.FC = () => {
           </div>
         </HelloAnimation>
       )}
-      <div className="relative h-screen overflow-hidden" style={gradientStyle}>
+      <div 
+        className={`relative h-screen overflow-hidden ${isProjectExpanded ? 'pointer-events-none' : ''}`} 
+        style={gradientStyle}
+      >
         {sections.map(({ Component, props }, index) => (
           <SectionWrapper
             key={index}

@@ -1,5 +1,6 @@
 // src/components/UI/ExpandedProjectCard.tsx
-import React from 'react';
+import React, { useEffect } from 'react';
+import ReactDOM from 'react-dom';
 
 interface ExpandedProjectCardProps {
   title: string;
@@ -20,9 +21,16 @@ const ExpandedProjectCard: React.FC<ExpandedProjectCardProps> = ({
   images,
   onClose,
 }) => {
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="bg-white text-[#4ECDC4] p-6 rounded-lg shadow-xl w-full h-full md:w-4/5 md:h-4/5 lg:w-3/4 lg:h-3/4 max-w-6xl overflow-y-auto">
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
+
+  const content = (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+      <div className="bg-white text-[#4ECDC4] p-6 rounded-lg shadow-xl w-11/12 h-5/6 max-w-4xl overflow-y-auto">
         <div className="flex justify-between items-center mb-4 sticky top-0 bg-white z-10">
           <h2 className="text-3xl font-bold">{title}</h2>
           <button onClick={onClose} className="text-2xl">&times;</button>
@@ -59,6 +67,8 @@ const ExpandedProjectCard: React.FC<ExpandedProjectCardProps> = ({
       </div>
     </div>
   );
+
+  return ReactDOM.createPortal(content, document.body);
 };
 
 export default ExpandedProjectCard;
