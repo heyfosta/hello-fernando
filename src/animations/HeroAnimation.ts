@@ -62,45 +62,64 @@ export const useHeroAnimation = ({
 };
 
 const setupScrollAnimations = (
-  heroContainer: HTMLElement, 
-  scrollText: HTMLElement, 
+  heroContainer: HTMLElement,
+  scrollText: HTMLElement,
   animationCompletedRef: React.MutableRefObject<boolean>,
   onAnimationComplete?: () => void
 ) => {
   console.log('Setting up scroll animations');
+
+  const wordSpans = scrollText.querySelectorAll('span');
   
   let scrollProgress = 0;
-  const maxScroll = 100;
+  const maxScroll = 162; // Increased to 300 for more granular control
 
   const updateAnimation = () => {
-    if (scrollProgress <= 100) {
-      // Stage 1: Move the text
-      gsap.set(scrollText, { x: `${100 - scrollProgress}%` });
-    }
+    let allWordsFullyVisible = true;
 
-    console.log('Scroll progress:', scrollProgress);
-    
-    if (scrollProgress >= 100 && !animationCompletedRef.current) {
-      animationCompletedRef.current = true;
+    wordSpans.forEach((span, index) => {
+      const delay = index * 0.1;
+      const progress = Math.max(0, Math.min(1, (scrollProgress - delay * 50) / 100));
       
-      // Animate the hero section upwards
-      gsap.to(heroContainer, {
-        y: '-100%',
-        duration: 1,
-        ease: 'power2.inOut',
-        onComplete: () => {
-          onAnimationComplete?.();
-          console.log('Hero animation complete, triggering next section');
-          document.removeEventListener('wheel', wheelHandler);
-          document.body.style.overflow = 'auto';
-        }
+      gsap.to(span, {
+        x: `${100 - progress * 100}%`,
+        opacity: progress,
+        filter: `blur(${20 - progress * 20}px)`,
+        duration: 0.3,
+        ease: 'power2.out'
       });
+
+      if (progress < 1) {
+        allWordsFullyVisible = false;
+      }
+    });
+
+    console.log('Scroll progress:', scrollProgress, 'All words fully visible:', allWordsFullyVisible);
+
+    if (scrollProgress >= maxScroll && allWordsFullyVisible && !animationCompletedRef.current) {
+      animationCompletedRef.current = true;
+
+      // Add a small delay before transitioning to the next section
+      setTimeout(() => {
+        // Animate the hero section upwards
+        gsap.to(heroContainer, {
+          y: '-100%',
+          duration: 1,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            onAnimationComplete?.();
+            console.log('Hero animation complete, triggering next section');
+            document.removeEventListener('wheel', wheelHandler);
+            document.body.style.overflow = 'auto';
+          }
+        });
+      }, 500); // 500ms delay
     }
   };
 
   const wheelHandler = (e: WheelEvent) => {
     e.preventDefault();
-    scrollProgress = Math.min(scrollProgress + Math.abs(e.deltaY) / 4, maxScroll);
+    scrollProgress = Math.min(scrollProgress + Math.abs(e.deltaY) / 3, maxScroll);
     updateAnimation();
   };
 

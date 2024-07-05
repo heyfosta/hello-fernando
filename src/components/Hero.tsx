@@ -30,11 +30,20 @@ const Hero: React.FC<HeroProps> = ({ isHelloAnimationComplete, onAnimationComple
             I build things for the web.
           </h3>
         </div>
-        <div ref={scrollRef} className="scroll-section overflow-hidden w-full" style={{transform: 'translateX(100%)'}}>
-          <p className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-none">
-            and create digital products lovingly made with a human touch.
-          </p>
-        </div>
+        <div ref={scrollRef} className="scroll-section overflow-hidden w-full">
+  {["and", "create", "digital", "products", "lovingly", "made", "with", "a", "human", "touch."].map((word, index) => (
+    <span 
+      key={index} 
+      className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-none mr-4 inline-block opacity-0"
+      style={{ 
+        filter: 'blur(20px)', 
+        transform: 'translateX(100%)'
+      }}
+    >
+      {word}
+    </span>
+  ))}
+</div>
       </div>
     </div>
   );
