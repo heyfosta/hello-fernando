@@ -20,6 +20,10 @@ export const SectionWrapper: React.FC<SectionWrapperProps> = ({
     } else if (index > currentSection) {
       return 'translateY(100%)';
     } else {
+      // Allow overscroll for the first section
+      if (index === 0 && scrollProgress < 0) {
+        return `translateY(${-scrollProgress}%)`;
+      }
       return `translateY(${-scrollProgress}%)`;
     }
   };

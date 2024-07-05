@@ -66,6 +66,14 @@ export const useSnapScroll = ({
       } else if (newScrollProgress < -snapThreshold && currentSection > 0) {
         snapToSection(currentSection - 1);
         accumulatedDelta = 0;
+      } else if (newScrollProgress > 0 && currentSection === sectionCount - 1) {
+        // Prevent scrolling past the last section
+        newScrollProgress = 0;
+        accumulatedDelta = 0;
+      } else if (newScrollProgress < 0 && currentSection === 0) {
+        // Allow some overscroll for the first section, but with resistance
+        newScrollProgress = Math.max(newScrollProgress, -20); // Limit overscroll to 20%
+        setScrollProgress(newScrollProgress);
       } else {
         setScrollProgress(newScrollProgress);
       }

@@ -42,7 +42,7 @@ export const useHeroAnimation = ({
         ease: 'power2.out',
         onComplete: () => {
           console.log('Slide left animation complete');
-          setupScrollAnimations(hero, scroll, animationCompletedRef, onAnimationComplete);
+          setupScrollAnimations(scroll, animationCompletedRef, onAnimationComplete);
         }
       });
 
@@ -62,7 +62,6 @@ export const useHeroAnimation = ({
 };
 
 const setupScrollAnimations = (
-  heroContainer: HTMLElement,
   scrollText: HTMLElement,
   animationCompletedRef: React.MutableRefObject<boolean>,
   onAnimationComplete?: () => void
@@ -106,19 +105,10 @@ const setupScrollAnimations = (
         scale: 0.5,
         stagger: 0.05,
         ease: 'power3.in',
-        duration: 1.5
-      });
-
-      // Animate the hero section upwards
-      gsap.to(heroContainer, {
-        y: '-100%',
         duration: 1.5,
-        ease: 'power2.inOut',
-        delay: 0.5,
         onComplete: () => {
           onAnimationComplete?.();
           console.log('Hero animation complete, triggering next section');
-          removeEventListeners();
           document.body.style.overflow = 'auto';
         }
       });
@@ -126,9 +116,11 @@ const setupScrollAnimations = (
   };
 
   const wheelHandler = (e: WheelEvent) => {
-    e.preventDefault();
-    scrollProgress = Math.min(scrollProgress + Math.abs(e.deltaY) / 3, maxScroll);
-    updateAnimation();
+    if (!animationCompletedRef.current) {
+      e.preventDefault();
+      scrollProgress = Math.min(scrollProgress + Math.abs(e.deltaY) / 3, maxScroll);
+      updateAnimation();
+    }
   };
 
   let touchStartY = 0;
@@ -137,18 +129,14 @@ const setupScrollAnimations = (
   };
 
   const touchMoveHandler = (e: TouchEvent) => {
-    e.preventDefault();
-    const touchY = e.touches[0].clientY;
-    const deltaY = touchStartY - touchY;
-    scrollProgress = Math.min(scrollProgress + Math.abs(deltaY) / 3, maxScroll);
-    touchStartY = touchY;
-    updateAnimation();
-  };
-
-  const removeEventListeners = () => {
-    document.removeEventListener('wheel', wheelHandler);
-    document.removeEventListener('touchstart', touchStartHandler);
-    document.removeEventListener('touchmove', touchMoveHandler);
+    if (!animationCompletedRef.current) {
+      e.preventDefault();
+      const touchY = e.touches[0].clientY;
+      const deltaY = touchStartY - touchY;
+      scrollProgress = Math.min(scrollProgress + Math.abs(deltaY) / 3, maxScroll);
+      touchStartY = touchY;
+      updateAnimation();
+    }
   };
 
   document.addEventListener('wheel', wheelHandler, { passive: false });
