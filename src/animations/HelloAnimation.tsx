@@ -63,7 +63,8 @@ const HelloAnimation: React.FC<HelloAnimationProps> = ({ onComplete, children })
       <div className="absolute inset-0 flex items-center justify-center z-30">
         <div
           ref={animationRef}
-          className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-bold text-white text-center"
+          className="text-8xl sm:text-9xl md:text-11xl lg:text-13xl xl:text-15xl 2xl:text-17xl font-black leading-none text-white text-center"
+          style={{ fontSize: 'min(20vw, 20vh)' }}
         ></div>
       </div>
       <div ref={topHalfRef} className="absolute top-0 left-0 w-full h-1/2 bg-black z-20"></div>
