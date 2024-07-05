@@ -118,7 +118,7 @@ const setupScrollAnimations = (
         onComplete: () => {
           onAnimationComplete?.();
           console.log('Hero animation complete, triggering next section');
-          document.removeEventListener('wheel', wheelHandler);
+          removeEventListeners();
           document.body.style.overflow = 'auto';
         }
       });
@@ -131,5 +131,27 @@ const setupScrollAnimations = (
     updateAnimation();
   };
 
+  let touchStartY = 0;
+  const touchStartHandler = (e: TouchEvent) => {
+    touchStartY = e.touches[0].clientY;
+  };
+
+  const touchMoveHandler = (e: TouchEvent) => {
+    e.preventDefault();
+    const touchY = e.touches[0].clientY;
+    const deltaY = touchStartY - touchY;
+    scrollProgress = Math.min(scrollProgress + Math.abs(deltaY) / 3, maxScroll);
+    touchStartY = touchY;
+    updateAnimation();
+  };
+
+  const removeEventListeners = () => {
+    document.removeEventListener('wheel', wheelHandler);
+    document.removeEventListener('touchstart', touchStartHandler);
+    document.removeEventListener('touchmove', touchMoveHandler);
+  };
+
   document.addEventListener('wheel', wheelHandler, { passive: false });
+  document.addEventListener('touchstart', touchStartHandler, { passive: false });
+  document.addEventListener('touchmove', touchMoveHandler, { passive: false });
 };

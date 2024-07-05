@@ -32,7 +32,7 @@ const Hero: React.FC<HeroProps> = ({ isHelloAnimationComplete, onAnimationComple
           </h3>
         </div>
         <div ref={scrollRef} className="scroll-section  w-full">
-          {["and", "create", "digital", "products", "lovingly", "made", "with", "a", "human", "touch."].map((word, index) => (
+          {["and", "create", "digital", "products", "made", "with", "a", "human", "touch."].map((word, index) => (
             <span 
               key={index} 
               className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-none mr-4 inline-block opacity-0"

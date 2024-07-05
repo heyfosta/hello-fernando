@@ -30,7 +30,7 @@ const FallingWords: React.FC<FallingWordsProps> = ({ isActive, onAnimationComple
 
   return (
     <div ref={wordsRef} className="fixed top-0 left-0 w-full h-full pointer-events-none z-50">
-      {["and", "create", "digital", "products", "lovingly", "made", "with", "a", "human", "touch."].map((word, index) => (
+      {["and", "create", "digital", "products", "made", "with", "a", "human", "touch."].map((word, index) => (
         <span 
           key={index} 
           className="absolute text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-none"
