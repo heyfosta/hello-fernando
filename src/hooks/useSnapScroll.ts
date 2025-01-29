@@ -1,98 +1,64 @@
-// src/hooks/useSnapScroll.ts
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
-interface UseSnapScrollOptions {
+interface UseSnapScrollProps {
   sectionCount: number;
   isEnabled: boolean;
   initialSection: number;
-  scrollSensitivity?: number;
-  snapThreshold?: number;
 }
 
 export const useSnapScroll = ({
   sectionCount,
   isEnabled,
   initialSection,
-  scrollSensitivity = 0.1,
-  snapThreshold = 70, // Percentage of screen height
-}: UseSnapScrollOptions) => {
+}: UseSnapScrollProps) => {
   const [currentSection, setCurrentSection] = useState(initialSection);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [isSnapping, setIsSnapping] = useState(false);
-
-  const snapToSection = useCallback((targetSection: number) => {
-    setIsSnapping(true);
-    setCurrentSection(targetSection);
-    setScrollProgress(0);
-    setTimeout(() => setIsSnapping(false), 300); // Animation duration
-  }, []);
+  const lastScrollY = useRef(0);
+  const sections = useRef<HTMLElement[]>([]);
 
   useEffect(() => {
     if (!isEnabled) return;
 
-    let accumulatedDelta = 0;
-    let touchStartY = 0;
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const viewportHeight = window.innerHeight;
 
-    const handleWheel = (event: WheelEvent) => {
-      if (isSnapping) return;
-      event.preventDefault();
-
-      accumulatedDelta += event.deltaY * scrollSensitivity;
-      handleScroll(accumulatedDelta);
-    };
-
-    const handleTouchStart = (event: TouchEvent) => {
-      touchStartY = event.touches[0].clientY;
-    };
-
-    const handleTouchMove = (event: TouchEvent) => {
-      if (isSnapping) return;
-      event.preventDefault();
-
-      const touchEndY = event.touches[0].clientY;
-      const deltaY = touchStartY - touchEndY;
-      accumulatedDelta += deltaY * scrollSensitivity;
-      handleScroll(accumulatedDelta);
-
-      touchStartY = touchEndY;
-    };
-
-    const handleScroll = (delta: number) => {
-      let newScrollProgress = delta / window.innerHeight * 100;
-
-      if (newScrollProgress > snapThreshold && currentSection < sectionCount - 1) {
-        snapToSection(currentSection + 1);
-        accumulatedDelta = 0;
-      } else if (newScrollProgress < -snapThreshold && currentSection > 0) {
-        snapToSection(currentSection - 1);
-        accumulatedDelta = 0;
-      } else if (newScrollProgress > 0 && currentSection === sectionCount - 1) {
-        // Prevent scrolling past the last section
-        newScrollProgress = 0;
-        accumulatedDelta = 0;
-      } else if (newScrollProgress < 0 && currentSection === 0) {
-        // Allow some overscroll for the first section, but with resistance
-        newScrollProgress = Math.max(newScrollProgress, -20); // Limit overscroll to 20%
-        setScrollProgress(newScrollProgress);
-      } else {
-        setScrollProgress(newScrollProgress);
+      // Just find which section we're in
+      let currentIndex = 0;
+      for (let i = 0; i < sections.current.length; i++) {
+        const section = sections.current[i];
+        if (!section) continue;
+        
+        if (currentScrollY >= section.offsetTop - viewportHeight / 2) {
+          currentIndex = i;
+        }
       }
+
+      // Update current section and progress
+      const currentSection = sections.current[currentIndex];
+      if (currentSection) {
+        const progress = ((currentScrollY - currentSection.offsetTop) / currentSection.offsetHeight) * 100;
+        setScrollProgress(Math.max(0, Math.min(100, progress)));
+        setCurrentSection(currentIndex);
+      }
+
+      lastScrollY.current = currentScrollY;
     };
 
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('touchstart', handleTouchStart, { passive: false });
-    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isEnabled, sectionCount]);
 
-    return () => {
-      window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
-    };
-  }, [currentSection, sectionCount, isSnapping, snapToSection, scrollSensitivity, snapThreshold, isEnabled]);
+  const registerSection = (index: number, ref: HTMLElement | null) => {
+    if (ref) {
+      sections.current[index] = ref;
+    }
+  };
 
   return {
     currentSection,
     scrollProgress,
     setCurrentSection,
+    registerSection
   };
 };

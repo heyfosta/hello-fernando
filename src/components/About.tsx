@@ -1,23 +1,43 @@
 // src/components/About.tsx
 import React from 'react';
 import Skill from '../components/UI/Skill';
+import '../styles/sections.css';
 
-const skills = ['React', 'TypeScript', 'JavaScript', 'HTML/CSS', 'Python', 'SQL', 'NODE.JS'
+
+const skills = [
+  'Process Analysis',
+  'Technical Solutions',
+  'Agile Methodology',
+  'Front-end Development',
+  'Automation',
+  'SQL'
 ];
 
 const About: React.FC = () => {
   return (
-    <section className="h-screen text-white flex items-center justify-center">
-      <div className="container mx-auto">
-        <h2 className="text-5xl font-bold mb-8 text-center">About Me</h2>
-        <p className="text-2xl mb-8 text-center max-w-2xl mx-auto">
-          Hi, I'm John Doe, a web developer with expertise in React, TypeScript, and more.
-        </p>
-        <ul className="flex justify-center space-x-4 flex-wrap">
-          {skills.map((skill, index) => (
-            <Skill key={index} name={skill} />
-          ))}
-        </ul>
+    <section className="section-container text-white">
+      <div className="section-content">
+        <div className="section-scrollable">
+          <div className="section-inner">
+            <h2 className="section-title">About Me</h2>
+            <div className="space-y-8 text-xl md:text-3xl md:leading-relaxed font-medium mb-16 text-center max-w-5xl mx-auto">
+              <p>
+                I love crafting innovative digital solutions. Working in a fast-paced agency environment, I analyze business challenges and transform them into powerful technical builds - from AI-powered campaign tools to automated content systems.
+              </p>
+              <p>
+                My role involves deep collaboration with creative teams, producers, technical leads, and stakeholders to understand requirements and deliver solutions that exceed campaign objectives.
+              </p>
+              <p>
+                Through developing complex digital projects for brands like Cadbury and KIA, I've developed a keen eye for analyzing business processes and identifying opportunities where technology can create real impact. This combination of technical expertise and business analysis helps me turn ambitious creative concepts into reality.
+              </p>
+            </div>
+            <ul className="flex justify-center gap-3 md:gap-6 flex-wrap max-w-2xl mx-auto">
+              {skills.map((skill, index) => (
+                <Skill key={index} name={skill} />
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
   );

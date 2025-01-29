@@ -3,6 +3,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import ProjectCard from './UI/ProjectCard';
 import ExpandedProjectCard from '../components/UI/ExpandedProjectCard';
+import '../styles/sections.css';
+
 
 interface Project {
   title: string;
@@ -21,7 +23,6 @@ interface ProjectsProps {
 const Projects: React.FC<ProjectsProps> = ({ color, setIsProjectExpanded }) => {
   const [expandedProject, setExpandedProject] = useState<Project | null>(null);
   const projectsContainerRef = useRef<HTMLDivElement>(null);
-
 
   const projects: Project[] = [
     {
@@ -81,17 +82,21 @@ const Projects: React.FC<ProjectsProps> = ({ color, setIsProjectExpanded }) => {
 
   return (
     <>
-      <section className="min-h-screen text-white flex items-center justify-center py-16" ref={projectsContainerRef}>
-        <div className="container mx-auto px-4">
-          <h2 className="text-5xl font-bold mb-12 text-center">Projects</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
-              <ProjectCard
-                key={index}
-                {...project}
-                onClick={() => handleProjectClick(project)}
-              />
-            ))}
+      <section className="section-container text-white" ref={projectsContainerRef}>
+        <div className="section-content">
+          <div className="section-scrollable">
+            <div className="section-inner">
+              <h2 className="section-title">Projects</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {projects.map((project, index) => (
+                  <ProjectCard
+                    key={index}
+                    {...project}
+                    onClick={() => handleProjectClick(project)}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>

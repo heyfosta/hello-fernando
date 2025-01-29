@@ -1,0 +1,65 @@
+/* src/styles/sections.css */
+
+.section-container {
+    min-height: 100vh; /* Changed from height to min-height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  
+  .section-content {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .section-scrollable {
+    min-height: 100%; /* Changed from height to min-height */
+    overflow-y: auto;
+  }
+  
+  .hero-section {
+    height: 100vh; /* Keep fixed height for hero */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem;
+    width: 100%;
+  }
+  
+  .section-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+  
+  @media (min-width: 768px) {
+    .section-title {
+      font-size: 4.5rem;
+    }
+  }
+  
+  .section-inner {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .section-wrapper {
+    min-height: 100vh; /* Changed from height to min-height */
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Smooth scrolling for the main container */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Disable smooth scroll when the project is expanded */
+  html.project-expanded {
+    scroll-behavior: auto;
+  }

@@ -1,39 +1,43 @@
 // src/components/SectionWrapper.tsx
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import '../styles/sections.css';
 
 interface SectionWrapperProps {
   children: React.ReactNode;
   index: number;
   currentSection: number;
   scrollProgress: number;
+  registerSection: (index: number, ref: HTMLElement | null) => void;
 }
 
 export const SectionWrapper: React.FC<SectionWrapperProps> = ({
   children,
   index,
   currentSection,
-  scrollProgress
+  scrollProgress,
+  registerSection,
 }) => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    registerSection(index, sectionRef.current);
+  }, [index, registerSection]);
+
   const calculateTransform = () => {
-    if (index < currentSection) {
-      return 'translateY(-100%)';
-    } else if (index > currentSection) {
-      return 'translateY(100%)';
-    } else {
-      // Allow overscroll for the first section
-      if (index === 0 && scrollProgress < 0) {
-        return `translateY(${-scrollProgress}%)`;
-      }
-      return `translateY(${-scrollProgress}%)`;
+    if (index === currentSection) {
+      return `translateY(0)`;
     }
+    return index < currentSection ? 'translateY(-100%)' : 'translateY(100%)';
   };
 
   return (
     <div
-      className="section absolute top-0 left-0 w-full h-full transition-transform duration-300 ease-out"
+      ref={sectionRef}
+      className="relative w-full section-wrapper"
       style={{
         transform: calculateTransform(),
-        zIndex: 100 - Math.abs(index - currentSection),
+        transition: 'transform 0.5s ease-out',
+        willChange: 'transform'
       }}
     >
       {children}

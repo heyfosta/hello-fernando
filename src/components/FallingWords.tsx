@@ -21,7 +21,7 @@ const FallingWords: React.FC<FallingWordsProps> = ({ isActive, onAnimationComple
           scale: 0.5, 
           stagger: 0.05, 
           ease: 'power3.in', 
-          duration: 1.5,
+          duration: 5,
           onComplete: onAnimationComplete
         }
       );
