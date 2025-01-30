@@ -1,40 +1,48 @@
 // src/components/UI/ProjectCard.tsx
 import React from 'react';
+import { Project } from '../../types/Project';
 import Card from './Card';
 
 interface ProjectCardProps {
-  title: string;
-  description: string;
-  technologies: string[];
+  project: Project;
   onClick: () => void;
+  isHero?: boolean;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({
-  title,
-  description,
-  technologies,
-  onClick
-}) => {
-  const truncateDescription = (text: string, wordLimit: number) => {
-    const words = text.split(' ');
-    if (words.length > wordLimit) {
-      return words.slice(0, wordLimit).join(' ') + '...';
-    }
-    return text;
-  };
-
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, isHero = false }) => {
   return (
-    <Card className="text-[#4ECDC4] p-3 sm:p-4 md:p-6 hover:scale-105 cursor-pointer" onClick={onClick}>
-      <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 sm:mb-2">
-        {title}
-      </h3>
-      <p className="text-sm sm:text-base md:text-lg mb-2">{truncateDescription(description, 100)}</p>
-      <div className="flex flex-wrap gap-2">
-        {technologies.map((tech, index) => (
-          <span key={index} className="bg-[#4ECDC4] text-white px-2 py-1 rounded text-xs">
-            {tech}
-          </span>
-        ))}
+    <Card 
+      className={`
+        text-[#4ECDC4] 
+        overflow-hidden 
+        hover:scale-105 
+        cursor-pointer 
+        transition-transform 
+        duration-300
+        ${isHero ? 'aspect-[16/9]' : 'aspect-square'}
+      `}
+      onClick={onClick}
+    >
+      <div className="relative h-48">
+        <img
+          src={project.thumbnailImage}
+          alt={project.title}
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <div className="p-4">
+        <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+        <p className="text-sm mb-4">{project.shortDescription}</p>
+        <div className="flex flex-wrap gap-2">
+          {project.technologies.map((tech, index) => (
+            <span 
+              key={index}
+              className="bg-[#4ECDC4] text-white px-2 py-1 rounded text-xs"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
       </div>
     </Card>
   );

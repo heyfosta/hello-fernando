@@ -1,17 +1,75 @@
-[
+
+{
+  "projects": [
     {
-      "title": "Project 1",
-      "description": "This is the description of Project 1.",
-      "image": "path/to/project1-image.jpg"
+      "id": "1",
+      "title": "AI Influencer Creator",
+      "shortDescription": "A cutting-edge SaaS platform that empowers users to create and manage AI-powered influencers",
+      "fullDescription": "A cutting-edge SaaS platform that empowers users to create and manage AI-powered influencers. The platform uses advanced AI algorithms to generate unique content and personalities, enabling businesses to establish a strong digital presence without traditional influencer partnerships.",
+      "technologies": ["TypeScript", "Next.js", "Supabase", "Tailwind CSS", "Stripe"],
+      "link": "https://ai-influencer-creator.com",
+      "githubLink": "https://github.com/user/ai-influencer-creator",
+      "thumbnailImage": "/api/placeholder/400/300",
+      "images": [
+        "/api/placeholder/800/600",
+        "/api/placeholder/800/600"
+      ]
     },
     {
-      "title": "Project 2",
-      "description": "This is the description of Project 2.",
-      "image": "path/to/project2-image.jpg"
+      "id": "1",
+      "title": "TeleBot Forge",
+      "shortDescription": "An innovative platform for creating customized Telegram bots with diverse personalities",
+      "fullDescription": "An innovative platform for creating customized Telegram bots with diverse personalities and knowledge bases. Users can define bot behaviors, integrate custom APIs, and deploy bots with minimal technical knowledge.",
+      "technologies": ["TypeScript", "Telegram Bot API", "Supabase", "Stripe", "RAG"],
+      "link": "https://telebot-forge.com",
+      "githubLink": "https://github.com/user/telebot-forge",
+      "thumbnailImage": "/api/placeholder/400/300",
+      "images": [
+        "/api/placeholder/800/600",
+        "/api/placeholder/800/600"
+      ]
     },
     {
-      "title": "Project 3",
-      "description": "This is the description of Project 3.",
-      "image": "path/to/project3-image.jpg"
+      "id": "1",
+      "title": "TeleBot Forge",
+      "shortDescription": "An innovative platform for creating customized Telegram bots with diverse personalities",
+      "fullDescription": "An innovative platform for creating customized Telegram bots with diverse personalities and knowledge bases. Users can define bot behaviors, integrate custom APIs, and deploy bots with minimal technical knowledge.",
+      "technologies": ["TypeScript", "Telegram Bot API", "Supabase", "Stripe", "RAG"],
+      "link": "https://telebot-forge.com",
+      "githubLink": "https://github.com/user/telebot-forge",
+      "thumbnailImage": "/api/placeholder/400/300",
+      "images": [
+        "/api/placeholder/800/600",
+        "/api/placeholder/800/600"
+      ]
+    },
+    {
+      "id": "1",
+      "title": "TeleBot Forge",
+      "shortDescription": "An innovative platform for creating customized Telegram bots with diverse personalities",
+      "fullDescription": "An innovative platform for creating customized Telegram bots with diverse personalities and knowledge bases. Users can define bot behaviors, integrate custom APIs, and deploy bots with minimal technical knowledge.",
+      "technologies": ["TypeScript", "Telegram Bot API", "Supabase", "Stripe", "RAG"],
+      "link": "https://telebot-forge.com",
+      "githubLink": "https://github.com/user/telebot-forge",
+      "thumbnailImage": "/api/placeholder/400/300",
+      "images": [
+        "/api/placeholder/800/600",
+        "/api/placeholder/800/600"
+      ]
+    },
+    {
+      "id": "1",
+      "title": "TeleBot Forge",
+      "shortDescription": "An innovative platform for creating customized Telegram bots with diverse personalities",
+      "fullDescription": "An innovative platform for creating customized Telegram bots with diverse personalities and knowledge bases. Users can define bot behaviors, integrate custom APIs, and deploy bots with minimal technical knowledge.",
+      "technologies": ["TypeScript", "Telegram Bot API", "Supabase", "Stripe", "RAG"],
+      "link": "https://telebot-forge.com",
+      "githubLink": "https://github.com/user/telebot-forge",
+      "thumbnailImage": "/api/placeholder/400/300",
+      "images": [
+        "/api/placeholder/800/600",
+        "/api/placeholder/800/600"
+      ]
     }
   ]
+}

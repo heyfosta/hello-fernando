@@ -1,0 +1,32 @@
+{
+    "experiences": [
+      {
+        "company": "Bernadette",
+        "position": "Web Developer",
+        "dateRange": "Oct 2022 - Present",
+        "description": "At Bernadette, I specialize in developing solutions that bridge technical capabilities with business needs: Lead development of automation tools using Python and Selenium, transforming manual processes from hours to seconds for the KIA account. Conduct technical feasibility analysis and prototype development for innovative projects, including AI implementation for the 'My Cadbury Era' campaign using Stable Diffusion and ComfyUI. Build and maintain custom web applications using React, Next.js, and Python, while implementing database solutions with SQL and MySQL for data-driven decision making."
+      },
+      {
+        "company": "VCCP iX",
+        "position": "Associate Technologist",
+        "dateRange": "Jan 2020 - Oct 2022",
+        "description": "Analyze technical feasibility of creative concepts during ideation meetings, providing expertise on implementation possibilities. Develop proof-of-concept prototypes to validate innovative technical solutions. Create and deliver technical documentation and presentations to internal teams. Collaborate with creative teams to ensure technical viability of proposed solutions. Support development teams in implementing new technologies and frameworks."
+      },
+      {
+        "company": "VCCP Digital",
+        "position": "Innovation Specialist",
+        "dateRange": "Aug 2018 - Jan 2020",
+        "description": "Led technology workshops and presentations on emerging technologies. Conducted research and analysis to identify opportunities for agency innovation. Facilitated creative meetings to bridge technical capabilities with creative concepts. Evaluated and recommended technical solutions for client campaigns. Created technical feasibility reports and established regular technology knowledge-sharing sessions that enhanced agency capabilities."
+      }
+    ],
+    "education": [
+      {
+        "company": "London College of Communication, University of the Arts London",
+        "position": "BA (Hons) Advertising",
+        "dateRange": "2014 - 2017",
+        "description": "First Class Honours. Specialized in digital advertising and innovation. Developed cutting-edge digital campaigns and explored emerging advertising technologies. Focus on creative strategy, digital media platforms, and innovative advertising solutions. Key projects involved conceptualizing and executing digital-first campaigns, exploring interactive advertising formats, and researching consumer engagement in digital spaces."
+      }
+    ]
+  }
+  
+  

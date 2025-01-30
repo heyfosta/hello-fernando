@@ -9,7 +9,10 @@ import { useColorTransition } from './hooks/useColorTransition';
 import { useSnapScroll } from './hooks/useSnapScroll';
 import HelloAnimation from './animations/HelloAnimation';
 import FallingWords from './components/FallingWords';
+import experienceData from './data/experience.json';
 import './styles/sections.css';
+
+import { Experience as ExperienceType } from './types/Experience';
 
 // Types
 type SectionProps = {
@@ -22,7 +25,7 @@ type SectionProps = {
 interface Section {
   Component: React.ComponentType<any>;
   props: SectionProps & { 
-    experiences?: any[];
+    experiences?: ExperienceType[];
     setIsProjectExpanded?: (expanded: boolean) => void;
   };
   color: string;
@@ -87,32 +90,8 @@ const App: React.FC = () => {
       Component: Experience, 
       props: { 
         color: COLORS.EXPERIENCE,
-        experiences: [
-          {
-            companyName: "Bernadette",
-            companyUrl: "https://wearebernadette.co",
-            position: "Web Developer",
-            dateRange: "Oct 2022 - Present",
-            location: "London, England, United Kingdom · Remote",
-            description: "At Bernadette, I specialize in developing solutions that bridge technical capabilities with business needs: Lead development of automation tools using Python and Selenium, transforming manual processes from hours to seconds for the KIA account. Conduct technical feasibility analysis and prototype development for innovative projects, including AI implementation for the 'My Cadbury Era' campaign using Stable Diffusion and ComfyUI. Build and maintain custom web applications using React, Next.js, and Python, while implementing database solutions with SQL and MySQL for data-driven decision making."
-          },
-          {
-            companyName: "VCCP iX",
-            companyUrl: "https://www.vccp.com",
-            position: "Associate Technologist",
-            dateRange: "Jan 2020 - Oct 2022",
-            location: "London, United Kingdom · On-site",
-            description: "Analyze technical feasibility of creative concepts during ideation meetings, providing expertise on implementation possibilities. Develop proof-of-concept prototypes to validate innovative technical solutions. Create and deliver technical documentation and presentations to internal teams. Collaborate with creative teams to ensure technical viability of proposed solutions. Support development teams in implementing new technologies and frameworks."
-          },
-          {
-            companyName: "VCCP Digital",
-            companyUrl: "https://www.vccp.com",
-            position: "Innovation Specialist",
-            dateRange: "Aug 2018 - Jan 2020",
-            location: "London, United Kingdom",
-            description: "Led technology workshops and presentations on emerging technologies. Conducted research and analysis to identify opportunities for agency innovation. Facilitated creative meetings to bridge technical capabilities with creative concepts. Evaluated and recommended technical solutions for client campaigns. Created technical feasibility reports and established regular technology knowledge-sharing sessions that enhanced agency capabilities."
-          }
-        ]
+        experiences: experienceData.experiences,
+        education: experienceData.education
       }, 
       color: COLORS.EXPERIENCE 
     },
@@ -138,7 +117,6 @@ const App: React.FC = () => {
     initialSection: 0,
   });
   
-
   // Effects
   useEffect(() => {
     if (isHeroAnimationComplete) {
@@ -164,7 +142,6 @@ const App: React.FC = () => {
     transition: 'background-image 0.3s ease-out',
   };
   
-
   return (
     <>
       {showHelloAnimation && (

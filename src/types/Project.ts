@@ -1,5 +1,12 @@
+// src/types/Project.ts
 export interface Project {
-    title: string;
-    description: string;
-    // Add more properties as needed
-  }
+  id: string;
+  title: string;
+  shortDescription: string;
+  fullDescription: string;
+  technologies: string[];
+  link?: string;
+  githubLink?: string;
+  thumbnailImage: string;
+  images: string[];
+}
