@@ -70,6 +70,7 @@ const setupScrollAnimations = (
   let scrollProgress = 0;
   const maxScroll = 162;
   const fallMaxScroll = maxScroll + 50;
+  let hasTriggeredTransition = false;
 
   const randomValues = Array.from(wordSpans).map(() => ({
     x: (Math.random() - 0.5) * 300,
@@ -82,9 +83,7 @@ const setupScrollAnimations = (
     wordSpans.forEach((span, index) => {
       const delay = index * 0.1;
       
-      
       if (scrollProgress <= maxScroll) {
-        // Initial slide-in animation
         const progress = Math.max(0, Math.min(1, (scrollProgress - delay * 50) / 100));
         gsap.to(span, {
           x: `${100 - progress * 100}%`,
@@ -97,41 +96,54 @@ const setupScrollAnimations = (
         });
       } else {
         const { x, scale, fallDelay, fallDistance } = randomValues[index];
-        // Calculate fall animation progress
-        const fallProgress = (scrollProgress - maxScroll) / (fallMaxScroll - maxScroll);
-        const adjustedProgress = Math.max(0, fallProgress - fallDelay);
-        
-        // Calculate opacity based on fall progress
-        const opacity = Math.max(0, 1 - adjustedProgress * 2);
+        const fallBase = (scrollProgress - maxScroll) / (fallMaxScroll - maxScroll);
+        const fallProgress = Math.max(0, Math.min(1, fallBase - fallDelay));
 
         gsap.to(span, {
-          x: `${x * adjustedProgress}px`,
-          y: `${fallDistance * adjustedProgress}vh`,
-          opacity,
-          scale: 1 + (scale - 1) * adjustedProgress,
+          x: `${x * fallProgress}px`,
+          y: `${fallDistance * fallProgress}vh`,
+          opacity: Math.max(0, 1 - fallProgress),
+          scale: 1 + (scale - 1) * fallProgress,
           filter: 'blur(0px)',
           duration: 0.2,
           ease: 'power2.inOut',
-          onComplete: () => {
-            if (opacity === 0 && index === wordSpans.length - 1 && !animationCompletedRef.current) {
-              animationCompletedRef.current = true;
-              onAnimationComplete?.();
-            }
-          }
         });
+
+        if (fallProgress >= 1 && !hasTriggeredTransition) {
+          hasTriggeredTransition = true;
+          onAnimationComplete?.();
+          const nextSection = document.querySelector('.section-wrapper:nth-child(2)');
+          if (nextSection) {
+            nextSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
       }
     });
   };
 
   const wheelHandler = (e: WheelEvent) => {
-    if (!animationCompletedRef.current) {
-      e.preventDefault();
-      const delta = Math.abs(e.deltaY) / 3;
-      // This is key - we need to handle the scroll direction explicitly
-      const newProgress = scrollProgress + (e.deltaY > 0 ? delta : -delta);
-      scrollProgress = Math.max(0, Math.min(fallMaxScroll, newProgress));
-      updateAnimation();
+    const delta = Math.abs(e.deltaY) / 3;
+    const newProgress = scrollProgress + (e.deltaY > 0 ? delta : -delta);
+    
+    // Check if we're scrolling back to hero section
+    if (e.deltaY < 0 && window.scrollY <= window.innerHeight) {
+      hasTriggeredTransition = false; // Reset the transition flag
+      document.body.style.overflow = 'hidden';
+    } 
+    // If scrolling down and animation complete
+    else if (newProgress >= fallMaxScroll && !hasTriggeredTransition) {
+      hasTriggeredTransition = true;
+      onAnimationComplete?.();
+      document.body.style.overflow = 'auto';
+      const nextSection = document.querySelector('.section-wrapper:nth-child(2)');
+      if (nextSection) {
+        nextSection.scrollIntoView({ behavior: 'smooth' });
+      }
+      return;
     }
+
+    scrollProgress = Math.max(0, Math.min(fallMaxScroll, newProgress));
+    updateAnimation();
   };
 
   let touchStartY = 0;
@@ -140,21 +152,36 @@ const setupScrollAnimations = (
   };
 
   const touchMoveHandler = (e: TouchEvent) => {
-    if (!animationCompletedRef.current) {
-      e.preventDefault();
-      const touchY = e.touches[0].clientY;
-      const deltaY = touchStartY - touchY;
-      const delta = Math.abs(deltaY) / 3;
-      const newProgress = scrollProgress + (deltaY > 0 ? delta : -delta);
-      scrollProgress = Math.max(0, Math.min(fallMaxScroll, newProgress));
-      touchStartY = touchY;
-      updateAnimation();
+    const touchY = e.touches[0].clientY;
+    const deltaY = touchStartY - touchY;
+    const delta = Math.abs(deltaY) / 3;
+    const newProgress = scrollProgress + (deltaY > 0 ? delta : -delta);
+
+    // Check if we're scrolling back to hero section
+    if (deltaY < 0 && window.scrollY <= window.innerHeight) {
+      hasTriggeredTransition = false;
+      document.body.style.overflow = 'hidden';
     }
+    // If scrolling down and animation complete
+    else if (newProgress >= fallMaxScroll && !hasTriggeredTransition) {
+      hasTriggeredTransition = true;
+      onAnimationComplete?.();
+      document.body.style.overflow = 'auto';
+      const nextSection = document.querySelector('.section-wrapper:nth-child(2)');
+      if (nextSection) {
+        nextSection.scrollIntoView({ behavior: 'smooth' });
+      }
+      return;
+    }
+
+    scrollProgress = Math.max(0, Math.min(fallMaxScroll, newProgress));
+    touchStartY = touchY;
+    updateAnimation();
   };
 
-  document.addEventListener('wheel', wheelHandler, { passive: false });
-  document.addEventListener('touchstart', touchStartHandler, { passive: false });
-  document.addEventListener('touchmove', touchMoveHandler, { passive: false });
+  document.addEventListener('wheel', wheelHandler, { passive: true });
+  document.addEventListener('touchstart', touchStartHandler, { passive: true });
+  document.addEventListener('touchmove', touchMoveHandler, { passive: true });
 
   return () => {
     document.removeEventListener('wheel', wheelHandler);
