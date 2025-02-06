@@ -66,59 +66,70 @@ const setupScrollAnimations = (
   animationCompletedRef: React.MutableRefObject<boolean>,
   onAnimationComplete?: () => void
 ) => {
-  console.log('Setting up scroll animations');
-
   const wordSpans = scrollText.querySelectorAll('span');
-
   let scrollProgress = 0;
   const maxScroll = 162;
+  const fallMaxScroll = maxScroll + 50;
+
+  const randomValues = Array.from(wordSpans).map(() => ({
+    x: (Math.random() - 0.5) * 300,
+    scale: 0.2 + Math.random() * 2.5,
+    fallDelay: Math.random() * 0.5,
+    fallDistance: 50 + Math.random() * 30
+  }));
 
   const updateAnimation = () => {
-    let allWordsFullyVisible = true;
-
     wordSpans.forEach((span, index) => {
       const delay = index * 0.1;
-      const progress = Math.max(0, Math.min(1, (scrollProgress - delay * 50) / 100));
+      
+      
+      if (scrollProgress <= maxScroll) {
+        // Initial slide-in animation
+        const progress = Math.max(0, Math.min(1, (scrollProgress - delay * 50) / 100));
+        gsap.to(span, {
+          x: `${100 - progress * 100}%`,
+          y: '0',
+          opacity: progress,
+          filter: `blur(${20 - progress * 20}px)`,
+          scale: 1,
+          duration: 0.3,
+          ease: 'power2.out'
+        });
+      } else {
+        const { x, scale, fallDelay, fallDistance } = randomValues[index];
+        // Calculate fall animation progress
+        const fallProgress = (scrollProgress - maxScroll) / (fallMaxScroll - maxScroll);
+        const adjustedProgress = Math.max(0, fallProgress - fallDelay);
+        
+        // Calculate opacity based on fall progress
+        const opacity = Math.max(0, 1 - adjustedProgress * 2);
 
-      gsap.to(span, {
-        x: `${100 - progress * 100}%`,
-        opacity: progress,
-        filter: `blur(${20 - progress * 20}px)`,
-        duration: 0.3,
-        ease: 'power2.out'
-      });
-
-      if (progress < 1) {
-        allWordsFullyVisible = false;
+        gsap.to(span, {
+          x: `${x * adjustedProgress}px`,
+          y: `${fallDistance * adjustedProgress}vh`,
+          opacity,
+          scale: 1 + (scale - 1) * adjustedProgress,
+          filter: 'blur(0px)',
+          duration: 0.2,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            if (opacity === 0 && index === wordSpans.length - 1 && !animationCompletedRef.current) {
+              animationCompletedRef.current = true;
+              onAnimationComplete?.();
+            }
+          }
+        });
       }
     });
-
-    console.log('Scroll progress:', scrollProgress, 'All words fully visible:', allWordsFullyVisible);
-
-    if (scrollProgress >= maxScroll && allWordsFullyVisible && !animationCompletedRef.current) {
-      animationCompletedRef.current = true;
-
-      // Parallax effect with words shooting down
-      gsap.to(wordSpans, {
-        y: '100vh',
-        opacity: 0,
-        scale: 0.5,
-        stagger: 0.05,
-        ease: 'power3.in',
-        duration: 1.5,
-        onComplete: () => {
-          onAnimationComplete?.();
-          console.log('Hero animation complete, triggering next section');
-          document.body.style.overflow = 'auto';
-        }
-      });
-    }
   };
 
   const wheelHandler = (e: WheelEvent) => {
     if (!animationCompletedRef.current) {
       e.preventDefault();
-      scrollProgress = Math.min(scrollProgress + Math.abs(e.deltaY) / 3, maxScroll);
+      const delta = Math.abs(e.deltaY) / 3;
+      // This is key - we need to handle the scroll direction explicitly
+      const newProgress = scrollProgress + (e.deltaY > 0 ? delta : -delta);
+      scrollProgress = Math.max(0, Math.min(fallMaxScroll, newProgress));
       updateAnimation();
     }
   };
@@ -133,7 +144,9 @@ const setupScrollAnimations = (
       e.preventDefault();
       const touchY = e.touches[0].clientY;
       const deltaY = touchStartY - touchY;
-      scrollProgress = Math.min(scrollProgress + Math.abs(deltaY) / 3, maxScroll);
+      const delta = Math.abs(deltaY) / 3;
+      const newProgress = scrollProgress + (deltaY > 0 ? delta : -delta);
+      scrollProgress = Math.max(0, Math.min(fallMaxScroll, newProgress));
       touchStartY = touchY;
       updateAnimation();
     }
@@ -142,4 +155,10 @@ const setupScrollAnimations = (
   document.addEventListener('wheel', wheelHandler, { passive: false });
   document.addEventListener('touchstart', touchStartHandler, { passive: false });
   document.addEventListener('touchmove', touchMoveHandler, { passive: false });
+
+  return () => {
+    document.removeEventListener('wheel', wheelHandler);
+    document.removeEventListener('touchstart', touchStartHandler);
+    document.removeEventListener('touchmove', touchMoveHandler);
+  };
 };

@@ -21,13 +21,12 @@ const HelloAnimation: React.FC<HelloAnimationProps> = ({ onComplete, children })
   useEffect(() => {
     const helloPhrases = [
       'Hello', 'Hola', 'Olá', 'Bonjour', 'Ciao', '你好',
-      'Hallo', 'こんにちは', '안녕하세요', 'مرحبا', 'नमस्ते', 'Merhaba',
     ];
 
     const timeline = gsap.timeline();
 
-    // Animation for all phrases
-    helloPhrases.forEach((phrase, index) => {
+    // Animation for all phrases except the last one
+    helloPhrases.slice(0, -1).forEach((phrase, index) => {
       timeline.to(animationRef.current, {
         duration: index === 0 ? 1.5 : Math.max(1.5 * 0.5 ** index, 0.1),
         text: phrase,
@@ -35,22 +34,26 @@ const HelloAnimation: React.FC<HelloAnimationProps> = ({ onComplete, children })
       });
     });
 
-    // Add a pause here
-    timeline.to({}, { duration: 1 }); // 1 second pause
-
-    // Then start the split animation
-    timeline.to(animationRef.current, {
-      opacity: 0,
-      duration: 0.5,
-    }).to([topHalfRef.current, bottomHalfRef.current], {
-      duration: 1.5,
-      y: (index, target) => {
-        const direction = target === topHalfRef.current ? -1 : 1;
-        return `${direction * 100}%`;
-      },
-      ease: 'power2.inOut',
-      onComplete: handleAnimationComplete,
-    });
+    // Last phrase with immediate transition to split screen
+    timeline
+      .to(animationRef.current, {
+        duration: 0.1, // Very short duration for the last word
+        text: helloPhrases[helloPhrases.length - 1],
+        ease: 'none',
+      })
+      .to(animationRef.current, {
+        opacity: 0,
+        duration: 0.3,
+      }, '+=0') // Start immediately after the last word
+      .to([topHalfRef.current, bottomHalfRef.current], {
+        duration: 1.5,
+        y: (index, target) => {
+          const direction = target === topHalfRef.current ? -1 : 1;
+          return `${direction * 100}%`;
+        },
+        ease: 'power2.inOut',
+        onComplete: handleAnimationComplete,
+      }, '-=0.3'); // Start slightly before the fade out completes
 
     return () => {
       timeline.kill();

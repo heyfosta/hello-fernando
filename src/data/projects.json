@@ -16,7 +16,35 @@
       ]
     },
     {
-      "id": "1",
+      "id": "2",
+      "title": "Telegram RAG Chatbots",
+      "shortDescription": "An innovative platform for creating customized Telegram bots with diverse personalities",
+      "fullDescription": "An innovative platform for creating customized Telegram bots with diverse personalities and knowledge bases. Users can define bot behaviors, integrate custom APIs, and deploy bots with minimal technical knowledge.",
+      "technologies": ["TypeScript", "Telegram Bot API", "Supabase", "Stripe", "RAG"],
+      "link": "https://telebot-forge.com",
+      "githubLink": "https://github.com/user/telebot-forge",
+      "thumbnailImage": "/api/placeholder/400/300",
+      "images": [
+        "/api/placeholder/800/600",
+        "/api/placeholder/800/600"
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Cadbury 200 years",
+      "shortDescription": "An innovative platform for creating customized Telegram bots with diverse personalities",
+      "fullDescription": "An innovative platform for creating customized Telegram bots with diverse personalities and knowledge bases. Users can define bot behaviors, integrate custom APIs, and deploy bots with minimal technical knowledge.",
+      "technologies": ["TypeScript", "Telegram Bot API", "Supabase", "Stripe", "RAG"],
+      "link": "https://wearebernadette.co/thinking/celebrate-200-years-of-cadbury-by-becoming-a-part-of-their-history-with",
+      "githubLink": "",
+      "thumbnailImage": "/public/projects/cadbury_200years.jpg",
+      "images": [
+        "/public/projects/cadbury_200years.jpg",
+       "/public/projects/cadbury_200years.jpg"
+      ]
+    },
+    {
+      "id": "4",
       "title": "TeleBot Forge",
       "shortDescription": "An innovative platform for creating customized Telegram bots with diverse personalities",
       "fullDescription": "An innovative platform for creating customized Telegram bots with diverse personalities and knowledge bases. Users can define bot behaviors, integrate custom APIs, and deploy bots with minimal technical knowledge.",
@@ -30,35 +58,7 @@
       ]
     },
     {
-      "id": "1",
-      "title": "TeleBot Forge",
-      "shortDescription": "An innovative platform for creating customized Telegram bots with diverse personalities",
-      "fullDescription": "An innovative platform for creating customized Telegram bots with diverse personalities and knowledge bases. Users can define bot behaviors, integrate custom APIs, and deploy bots with minimal technical knowledge.",
-      "technologies": ["TypeScript", "Telegram Bot API", "Supabase", "Stripe", "RAG"],
-      "link": "https://telebot-forge.com",
-      "githubLink": "https://github.com/user/telebot-forge",
-      "thumbnailImage": "/api/placeholder/400/300",
-      "images": [
-        "/api/placeholder/800/600",
-        "/api/placeholder/800/600"
-      ]
-    },
-    {
-      "id": "1",
-      "title": "TeleBot Forge",
-      "shortDescription": "An innovative platform for creating customized Telegram bots with diverse personalities",
-      "fullDescription": "An innovative platform for creating customized Telegram bots with diverse personalities and knowledge bases. Users can define bot behaviors, integrate custom APIs, and deploy bots with minimal technical knowledge.",
-      "technologies": ["TypeScript", "Telegram Bot API", "Supabase", "Stripe", "RAG"],
-      "link": "https://telebot-forge.com",
-      "githubLink": "https://github.com/user/telebot-forge",
-      "thumbnailImage": "/api/placeholder/400/300",
-      "images": [
-        "/api/placeholder/800/600",
-        "/api/placeholder/800/600"
-      ]
-    },
-    {
-      "id": "1",
+      "id": "5",
       "title": "TeleBot Forge",
       "shortDescription": "An innovative platform for creating customized Telegram bots with diverse personalities",
       "fullDescription": "An innovative platform for creating customized Telegram bots with diverse personalities and knowledge bases. Users can define bot behaviors, integrate custom APIs, and deploy bots with minimal technical knowledge.",

@@ -8,13 +8,12 @@ import { SectionWrapper } from './components/SectionWrapper';
 import { useColorTransition } from './hooks/useColorTransition';
 import { useSnapScroll } from './hooks/useSnapScroll';
 import HelloAnimation from './animations/HelloAnimation';
-import FallingWords from './components/FallingWords';
+// import FallingWords from './components/FallingWords';
 import experienceData from './data/experience.json';
 import './styles/sections.css';
 
 import { Experience as ExperienceType } from './types/Experience';
 
-// Types
 type SectionProps = {
   onAnimationComplete?: () => void;
   isHelloAnimationComplete?: boolean;
@@ -31,7 +30,6 @@ interface Section {
   color: string;
 }
 
-// Colors
 const COLORS = {
   HERO: '#FFCC00',
   ABOUT: '#66CC99',
@@ -48,22 +46,34 @@ const App: React.FC = () => {
   const [isTransitioningFromHero, setIsTransitioningFromHero] = useState(true);
   const [isHelloAnimationComplete, setIsHelloAnimationComplete] = useState(false);
   const [isProjectExpanded, setIsProjectExpanded] = useState(false);
-  const [showFallingWords, setShowFallingWords] = useState(false);
+  // const [showFallingWords, setShowFallingWords] = useState(false);
+  
+
+  // Force scroll to top on mount/refresh
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.body.style.overflow = showHelloAnimation ? 'hidden' : 'auto';
+    
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [showHelloAnimation]);
 
   // Handlers
   const handleHelloAnimationComplete = useCallback(() => {
     setShowHelloAnimation(false);
     setIsHelloAnimationComplete(true);
+    window.scrollTo(0, 0);
   }, []);
 
   const handleHeroAnimationComplete = useCallback(() => {
     setIsHeroAnimationComplete(true);
-    setShowFallingWords(true);
+    // setShowFallingWords(true);
   }, []);
 
-  const handleFallingWordsComplete = useCallback(() => {
-    setShowFallingWords(false);
-  }, []);
+  // const handleFallingWordsComplete = useCallback(() => {
+  //   setShowFallingWords(false);
+  // }, []);
 
   const handleProjectExpanded = useCallback((expanded: boolean) => {
     setIsProjectExpanded(expanded);
@@ -111,19 +121,18 @@ const App: React.FC = () => {
   ], [handleHeroAnimationComplete, isHelloAnimationComplete, handleProjectExpanded]);
 
   // Scroll handling
-  const { currentSection, scrollProgress, setCurrentSection, registerSection } = useSnapScroll({
+  const { currentSection, scrollProgress, registerSection } = useSnapScroll({
     sectionCount: sections.length,
-    isEnabled: isHeroAnimationComplete && !isProjectExpanded,
+    isEnabled: isHeroAnimationComplete && !isProjectExpanded && !showHelloAnimation,
     initialSection: 0,
   });
   
-  // Effects
+  // Modified effect to handle hero animation
   useEffect(() => {
-    if (isHeroAnimationComplete) {
-      setCurrentSection(1);
+    if (isHeroAnimationComplete && !showHelloAnimation) {
       setTimeout(() => setIsTransitioningFromHero(false), 500);
     }
-  }, [isHeroAnimationComplete, setCurrentSection]);
+  }, [isHeroAnimationComplete, showHelloAnimation]);
 
   // Color transition logic
   const currentColor = isTransitioningFromHero 
@@ -132,7 +141,6 @@ const App: React.FC = () => {
   const nextColor = sections[currentSection].color;
   const transitionedColor = useColorTransition(currentColor, nextColor, 500);
 
-  // Styles
   const gradientStyle = {
     backgroundImage: `linear-gradient(
       to bottom, 
@@ -143,22 +151,21 @@ const App: React.FC = () => {
   };
   
   return (
-    <>
-      {showHelloAnimation && (
-        <HelloAnimation onComplete={handleHelloAnimationComplete}>
-          <div className="hello-content" />
-        </HelloAnimation>
-      )}
-  
+    <div className="relative scroll-container">
       <div 
-        className={`
-          fixed inset-0 
-          ${isProjectExpanded ? 'pointer-events-none' : ''}
-        `} 
-        style={gradientStyle}
-      />
-      
-      <div className="relative min-h-screen">
+        className="relative min-h-screen"
+        style={{ 
+          overflow: showHelloAnimation ? 'hidden' : 'visible'
+        }}
+      >
+        <div 
+          className={`
+            fixed inset-0 
+            ${isProjectExpanded ? 'pointer-events-none' : ''}
+          `} 
+          style={gradientStyle}
+        />
+        
         {sections.map(({ Component, props }, index) => (
           <SectionWrapper
             key={index}
@@ -166,19 +173,26 @@ const App: React.FC = () => {
             currentSection={currentSection}
             scrollProgress={scrollProgress}
             registerSection={registerSection}
+            isHelloAnimationComplete={isHelloAnimationComplete}
           >
             <Component {...props} />
           </SectionWrapper>
         ))}
       </div>
+
+      {showHelloAnimation && (
+        <HelloAnimation onComplete={handleHelloAnimationComplete}>
+          <div className="hello-content" />
+        </HelloAnimation>
+      )}
   
-      {showFallingWords && (
+      {/* {showFallingWords && (
         <FallingWords 
           isActive={showFallingWords} 
           onAnimationComplete={handleFallingWordsComplete} 
         />
-      )}
-    </>
+      )} */}
+    </div>
   );
 };
 

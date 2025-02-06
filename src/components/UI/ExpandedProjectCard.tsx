@@ -1,5 +1,5 @@
 // src/components/UI/ExpandedProjectCard.tsx
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Project } from '../../types/Project';
 import { X } from 'lucide-react';
 
@@ -9,6 +9,23 @@ interface ExpandedProjectCardProps {
 }
 
 const ExpandedProjectCard: React.FC<ExpandedProjectCardProps> = ({ project, onClose }) => {
+  const [selectedImage, setSelectedImage] = useState<number>(0);
+  const [imageError, setImageError] = useState<{ [key: string]: boolean }>({});
+
+  const getImagePath = (path: string): string => {
+    if (path.startsWith('/public/')) {
+      return path.replace('/public', '');
+    }
+    return path;
+  };
+
+  const handleImageError = (index: number) => {
+    setImageError(prev => ({
+      ...prev,
+      [index]: true
+    }));
+  };
+
   const handleOverlayClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -44,11 +61,33 @@ const ExpandedProjectCard: React.FC<ExpandedProjectCardProps> = ({ project, onCl
       <div className="w-full h-full md:w-11/12 md:h-5/6 bg-white overflow-y-auto relative">
         <div className="h-1/2 md:h-2/3 relative">
           <img
-            src={project.images[0]}
-            alt={project.title}
+            src={imageError[selectedImage] ? '/api/placeholder/800/600' : getImagePath(project.images[selectedImage])}
+            alt={`${project.title} - Image ${selectedImage + 1}`}
             className="w-full h-full object-cover"
+            onError={() => handleImageError(selectedImage)}
           />
         </div>
+
+        {/* Thumbnail Gallery */}
+        {project.images.length > 1 && (
+          <div className="flex gap-2 p-4 overflow-x-auto bg-gray-100">
+            {project.images.map((image, index) => (
+              <button
+                key={index}
+                onClick={() => setSelectedImage(index)}
+                className={`relative flex-shrink-0 h-20 w-32 rounded-lg overflow-hidden 
+                  ${selectedImage === index ? 'ring-2 ring-[#4ECDC4]' : ''}`}
+              >
+                <img
+                  src={imageError[index] ? '/api/placeholder/400/300' : getImagePath(image)}
+                  alt={`${project.title} - Thumbnail ${index + 1}`}
+                  className="w-full h-full object-cover"
+                  onError={() => handleImageError(index)}
+                />
+              </button>
+            ))}
+          </div>
+        )}
 
         <div className="p-6 md:p-8 max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">

@@ -10,8 +10,8 @@ const TEXT_COLOR = 'text-gray-800';
 const BUTTON_TEXT_COLOR = 'text-gray-800'; 
 
 const Contact: React.FC<ContactProps> = () => {
-    console.log('Email:', process.env.REACT_APP_EMAIL);
-    console.log('Phone:', process.env.REACT_APP_PHONE);
+    // console.log('Email:', process.env.REACT_APP_EMAIL);
+    // console.log('Phone:', process.env.REACT_APP_PHONE);
     
     return (
         <section className={`section-container ${TEXT_COLOR}`}>

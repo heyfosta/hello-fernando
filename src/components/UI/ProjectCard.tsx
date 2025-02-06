@@ -1,5 +1,5 @@
 // src/components/UI/ProjectCard.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { Project } from '../../types/Project';
 import Card from './Card';
 
@@ -10,6 +10,15 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, isHero = false }) => {
+  const [imageError, setImageError] = useState(false);
+
+  const getImagePath = (path: string): string => {
+    if (path.startsWith('/public/')) {
+      return path.replace('/public', '');
+    }
+    return path;
+  };
+
   return (
     <Card 
       className={`
@@ -25,9 +34,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, isHero = fa
     >
       <div className="relative h-48">
         <img
-          src={project.thumbnailImage}
+          src={imageError ? '/api/placeholder/400/300' : getImagePath(project.thumbnailImage)}
           alt={project.title}
           className="w-full h-full object-cover"
+          onError={() => setImageError(true)}
         />
       </div>
       <div className="p-4">
