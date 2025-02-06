@@ -87,7 +87,7 @@ const Hero: React.FC<HeroProps> = ({
               lineHeight: '1.2'
             }}
           >
-        {["and", "create", "digital", "products", "made", "with", "a", "human", "touch."].map((word, index) => {
+        {["Creating", "digital", "products", "made", "with", "a", "human", "touch."].map((word, index) => {
           // Generate random size class
           const sizeClass = `size-${Math.floor(Math.random() * 3) + 1}`;
           

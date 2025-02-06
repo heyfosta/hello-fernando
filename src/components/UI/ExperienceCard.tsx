@@ -13,12 +13,14 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
   return (
     <div className="mx-4 mb-4">
       <Card className="
-        text-[black] p-3 sm:p-4 md:p-6 
-        transform transition-all duration-300 ease-out 
+        text-[black] p-3 sm:p-4 md:p-6
+        transform transition-all duration-300 ease-out
         hover:scale-110
         relative
         origin-center
         overflow-hidden
+        rounded-xl
+        shadow-lg
       ">
         <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 sm:mb-2">
           {company}

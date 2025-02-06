@@ -1,8 +1,6 @@
-// src/components/About.tsx
 import React from 'react';
 import Skill from '../components/UI/Skill';
 import '../styles/sections.css';
-
 
 const skills = [
   'Process Analysis',
@@ -31,7 +29,7 @@ const About: React.FC = () => {
                 Through developing complex digital projects for brands like Cadbury and KIA, I've developed a keen eye for analyzing business processes and identifying opportunities where technology can create real impact. This combination of technical expertise and business analysis helps me turn ambitious creative concepts into reality.
               </p>
             </div>
-            <ul className="flex justify-center gap-3 md:gap-6 flex-wrap max-w-2xl mx-auto">
+            <ul className="flex flex-wrap justify-center max-w-4xl mx-auto">
               {skills.map((skill, index) => (
                 <Skill key={index} name={skill} />
               ))}
