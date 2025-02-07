@@ -1,6 +1,6 @@
 //components/cotact.tsx
 import React from 'react';
-import { ContactProps } from '../types/SectionTypes';
+import { ContactProps } from '../types/types';
 import Card from './UI/Card';
 import { EmailIcon, PhoneIcon, GitHubIcon, LinkedInIcon, DownloadIcon } from '../components/Icons/Icons';
 import '../styles/sections.css';

@@ -45,16 +45,16 @@
     },
     {
       "id": "4",
-      "title": "TeleBot Forge",
+      "title": "KIA",
       "shortDescription": "An innovative platform for creating customized Telegram bots with diverse personalities",
       "fullDescription": "An innovative platform for creating customized Telegram bots with diverse personalities and knowledge bases. Users can define bot behaviors, integrate custom APIs, and deploy bots with minimal technical knowledge.",
       "technologies": ["TypeScript", "Telegram Bot API", "Supabase", "Stripe", "RAG"],
       "link": "https://telebot-forge.com",
       "githubLink": "https://github.com/user/telebot-forge",
-      "thumbnailImage": "/api/placeholder/400/300",
-      "images": [
-        "/api/placeholder/800/600",
-        "/api/placeholder/800/600"
+      "thumbnailImage": "/public/projects/kia-brand-header-image.jpg",
+      "media": [
+        { "type": "video", "url": "/public/projects/kia_screenshot.mp4" },
+        { "type": "image", "url": "/public/projects/image1.jpg" }
       ]
     },
     {

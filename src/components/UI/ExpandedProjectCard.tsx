@@ -1,7 +1,7 @@
 // src/components/UI/ExpandedProjectCard.tsx
 import React, { useCallback, useEffect, useState } from 'react';
-import { Project } from '../../types/Project';
 import { X } from 'lucide-react';
+import { Project } from '../../types/types';
 
 interface ExpandedProjectCardProps {
   project: Project;
@@ -9,18 +9,17 @@ interface ExpandedProjectCardProps {
 }
 
 const ExpandedProjectCard: React.FC<ExpandedProjectCardProps> = ({ project, onClose }) => {
-  const [selectedImage, setSelectedImage] = useState<number>(0);
-  const [imageError, setImageError] = useState<{ [key: string]: boolean }>({});
+  const [mediaError, setMediaError] = useState<{ [key: string]: boolean }>({});
 
-  const getImagePath = (path: string): string => {
+  const getMediaPath = (path: string): string => {
     if (path.startsWith('/public/')) {
       return path.replace('/public', '');
     }
     return path;
   };
 
-  const handleImageError = (index: number) => {
-    setImageError(prev => ({
+  const handleMediaError = (index: number) => {
+    setMediaError(prev => ({
       ...prev,
       [index]: true
     }));
@@ -45,6 +44,47 @@ const ExpandedProjectCard: React.FC<ExpandedProjectCardProps> = ({ project, onCl
     };
   }, [handleEscapeKey]);
 
+  const renderMedia = (mediaItem: string | { type: string; url: string }, index: number) => {
+    if (mediaError[index]) {
+      return (
+        <img
+          src="/api/placeholder/800/600"
+          alt={`Fallback for ${project.title}`}
+          className="w-full h-full object-cover"
+        />
+      );
+    }
+
+    if (typeof mediaItem === 'object' && mediaItem.type === 'video') {
+      return (
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover"
+          onError={() => handleMediaError(index)}
+        >
+          <source src={getMediaPath(mediaItem.url)} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      );
+    }
+
+    const imageSrc = typeof mediaItem === 'string' ? mediaItem : mediaItem.url;
+    return (
+      <img
+        src={getMediaPath(imageSrc)}
+        alt={`${project.title} preview`}
+        className="w-full h-full object-cover"
+        onError={() => handleMediaError(index)}
+      />
+    );
+  };
+
+  // Use media array if available, otherwise fall back to images
+  const mediaItems = project.media || project.images || [];
+
   return (
     <div 
       className="fixed inset-0 bg-black/75 flex items-center justify-center z-50 backdrop-blur-sm"
@@ -59,57 +99,58 @@ const ExpandedProjectCard: React.FC<ExpandedProjectCardProps> = ({ project, onCl
       </button>
 
       <div className="w-full h-full md:w-11/12 md:h-5/6 bg-white overflow-y-auto relative">
-        <div className="h-1/2 md:h-2/3 relative">
+        {/* Hero Image */}
+        <div className="w-full h-64 bg-amber-400">
           <img
-            src={imageError[selectedImage] ? '/api/placeholder/800/600' : getImagePath(project.images[selectedImage])}
-            alt={`${project.title} - Image ${selectedImage + 1}`}
+            src={getMediaPath(project.thumbnailImage)}
+            alt={project.title}
             className="w-full h-full object-cover"
-            onError={() => handleImageError(selectedImage)}
+            onError={() => handleMediaError(-1)}
           />
         </div>
 
-        {/* Thumbnail Gallery */}
-        {project.images.length > 1 && (
-          <div className="flex gap-2 p-4 overflow-x-auto bg-gray-100">
-            {project.images.map((image, index) => (
-              <button
-                key={index}
-                onClick={() => setSelectedImage(index)}
-                className={`relative flex-shrink-0 h-20 w-32 rounded-lg overflow-hidden 
-                  ${selectedImage === index ? 'ring-2 ring-[#4ECDC4]' : ''}`}
-              >
-                <img
-                  src={imageError[index] ? '/api/placeholder/400/300' : getImagePath(image)}
-                  alt={`${project.title} - Thumbnail ${index + 1}`}
-                  className="w-full h-full object-cover"
-                  onError={() => handleImageError(index)}
-                />
-              </button>
-            ))}
-          </div>
-        )}
-
         <div className="p-6 md:p-8 max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
-            {project.title}
-          </h2>
-          
-          <p className="text-gray-600 mb-8 text-lg">
-            {project.fullDescription}
-          </p>
-
-          <div className="flex flex-wrap gap-2 mb-8">
-            {project.technologies.map((tech, index) => (
-              <span
-                key={index}
-                className="bg-[#4ECDC4] text-white px-4 py-2 rounded-full text-sm"
-              >
-                {tech}
-              </span>
-            ))}
+          {/* Title and Description */}
+          <div className="mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
+              {project.title}
+            </h2>
+            <p className="text-gray-600 text-lg">
+              {project.fullDescription}
+            </p>
           </div>
 
-          <div className="flex flex-wrap gap-4">
+          {/* Technologies */}
+          {project.technologies && (
+            <div className="flex flex-wrap gap-2 mb-8">
+              {project.technologies.map((tech, index) => (
+                <span
+                  key={index}
+                  className="bg-[#4ECDC4] text-white px-4 py-2 rounded-full text-sm"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Media Content */}
+          {mediaItems.map((mediaItem, index) => (
+            <div key={index} className="mb-12">
+              <div className="h-64 md:h-96 bg-blue-100">
+                {renderMedia(mediaItem, index)}
+              </div>
+              
+              {project.shortDescription && (
+                <div className="mt-6 prose max-w-none">
+                  <p className="text-gray-600">{project.shortDescription}</p>
+                </div>
+              )}
+            </div>
+          ))}
+
+          {/* Links */}
+          <div className="flex flex-wrap gap-4 mt-8">
             {project.link && (
               <a
                 href={project.link}

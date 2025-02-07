@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from './Card';
-import { Experience } from '../../types/Experience';
+import { Experience } from '../../types/types';
 
 type ExperienceCardProps = Experience;
 

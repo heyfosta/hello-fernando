@@ -12,7 +12,7 @@ import HelloAnimation from './animations/HelloAnimation';
 import experienceData from './data/experience.json';
 import './styles/sections.css';
 
-import { Experience as ExperienceType } from './types/Experience';
+import { Experience as ExperienceType } from './types/types';
 
 type SectionProps = {
   onAnimationComplete?: () => void;

@@ -1,6 +1,6 @@
 // src/components/UI/ProjectCard.tsx
 import React, { useState } from 'react';
-import { Project } from '../../types/Project';
+import { Project } from '../../types/types';
 import Card from './Card';
 
 interface ProjectCardProps {
@@ -20,7 +20,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, isHero = fa
   };
 
   return (
-    <Card 
+    <Card
       className={`
         text-[#4ECDC4] 
         overflow-hidden 
@@ -45,7 +45,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, isHero = fa
         <p className="text-sm mb-4">{project.shortDescription}</p>
         <div className="flex flex-wrap gap-2">
           {project.technologies.map((tech, index) => (
-            <span 
+            <span
               key={index}
               className="bg-[#4ECDC4] text-white px-2 py-1 rounded text-xs"
             >

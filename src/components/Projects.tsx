@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import ProjectCard from './UI/ProjectCard';
 import ExpandedProjectCard from './UI/ExpandedProjectCard';
 import projectsData from '../data/projects.json';
-import { Project } from '../types/Project';
+import { Project } from '../types/types';
 import '../styles/sections.css';
 
 interface ProjectsProps {
@@ -12,12 +12,16 @@ interface ProjectsProps {
   setIsProjectExpanded: (expanded: boolean) => void;
 }
 
+interface ProjectData extends Omit<Project, 'media'> {
+  media?: Project['media'];
+}
+
 const Projects: React.FC<ProjectsProps> = ({ color, setIsProjectExpanded }) => {
   const [expandedProject, setExpandedProject] = useState<Project | null>(null);
   const projectsContainerRef = useRef<HTMLDivElement>(null);
 
-  const handleProjectClick = (project: Project) => {
-    setExpandedProject(project);
+  const handleProjectClick = (project: ProjectData) => {
+    setExpandedProject(project as Project);
     setIsProjectExpanded(true);
   };
 
@@ -46,10 +50,10 @@ const Projects: React.FC<ProjectsProps> = ({ color, setIsProjectExpanded }) => {
               <h2 className="section-title">Projects</h2>
               {/* Hero Projects */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                {projectsData.projects.slice(0, 2).map((project) => (
+                {(projectsData.projects as ProjectData[]).slice(0, 2).map((project) => (
                   <ProjectCard
                     key={project.id}
-                    project={project}
+                    project={project as Project}
                     onClick={() => handleProjectClick(project)}
                     isHero={true}
                   />
@@ -59,10 +63,10 @@ const Projects: React.FC<ProjectsProps> = ({ color, setIsProjectExpanded }) => {
               {/* Regular Projects */}
               {projectsData.projects.length > 2 && (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {projectsData.projects.slice(2).map((project) => (
+                  {(projectsData.projects as ProjectData[]).slice(2).map((project) => (
                     <ProjectCard
                       key={project.id}
-                      project={project}
+                      project={project as Project}
                       onClick={() => handleProjectClick(project)}
                       isHero={false}
                     />

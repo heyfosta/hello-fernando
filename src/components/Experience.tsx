@@ -1,7 +1,7 @@
 // src/components/Experience.tsx
 import React from 'react';
 import ExperienceCard from './UI/ExperienceCard';
-import { Experience as ExperienceType } from '../types/Experience';
+import { Experience as ExperienceType } from '../types/types';
 import '../styles/sections.css';
 
 interface ExperienceProps {
