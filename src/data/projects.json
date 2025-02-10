@@ -10,9 +10,22 @@
       "link": "https://ai-influencer-creator.com",
       "githubLink": "https://github.com/user/ai-influencer-creator",
       "thumbnailImage": "/api/placeholder/400/300",
-      "images": [
-        "/api/placeholder/800/600",
-        "/api/placeholder/800/600"
+      "media": [
+        { 
+          "type": "image", 
+          "url": "/public/projects/aem-bg.jpg",
+          "description": "With 5 years of AEM expertise, I bridged the gap between design and technical implementation. Collaborated closely with UX/UI teams to translate designs into feasible AEM components, providing strategic input on technical limitations and opportunities. Trained and supported content managers in effectively utilizing the AEM interface, while implementing robust templates that maintained brand integrity."
+        },
+        { 
+          "type": "image", 
+          "url": "/public/projects/kia-aem-editor.jpg",
+          "description": "Developed and implemented responsive, component-based page templates that enabled marketing teams to rapidly deploy new vehicle launches and promotional campaigns. Optimized the content authoring experience by creating custom AEM components that balanced flexibility with brand consistency."
+        },
+        {
+          "type": "video",
+          "url": "/public/projects/kia_screenshot.mp4",
+          "description": "Identified critical workflow bottlenecks and developed innovative automation solutions using Selenium and Python, transforming time-consuming manual processes into streamlined operations. Created custom screenshotting tools and automated data management systems that reduced task completion time from 72+ hours to under 5 minutes across 500+ dealers. This hands-on approach to automation eliminated repetitive tasks, reduced human error to near-zero, and dramatically improved team efficiency."
+        }
       ]
     },
     {
@@ -24,9 +37,22 @@
       "link": "https://telebot-forge.com",
       "githubLink": "https://github.com/user/telebot-forge",
       "thumbnailImage": "/api/placeholder/400/300",
-      "images": [
-        "/api/placeholder/800/600",
-        "/api/placeholder/800/600"
+      "media": [
+        { 
+          "type": "image", 
+          "url": "/public/projects/aem-bg.jpg",
+          "description": "With 5 years of AEM expertise, I bridged the gap between design and technical implementation. Collaborated closely with UX/UI teams to translate designs into feasible AEM components, providing strategic input on technical limitations and opportunities. Trained and supported content managers in effectively utilizing the AEM interface, while implementing robust templates that maintained brand integrity."
+        },
+        { 
+          "type": "image", 
+          "url": "/public/projects/kia-aem-editor.jpg",
+          "description": "Developed and implemented responsive, component-based page templates that enabled marketing teams to rapidly deploy new vehicle launches and promotional campaigns. Optimized the content authoring experience by creating custom AEM components that balanced flexibility with brand consistency."
+        },
+        {
+          "type": "video",
+          "url": "/public/projects/kia_screenshot.mp4",
+          "description": "Identified critical workflow bottlenecks and developed innovative automation solutions using Selenium and Python, transforming time-consuming manual processes into streamlined operations. Created custom screenshotting tools and automated data management systems that reduced task completion time from 72+ hours to under 5 minutes across 500+ dealers. This hands-on approach to automation eliminated repetitive tasks, reduced human error to near-zero, and dramatically improved team efficiency."
+        }
       ]
     },
     {
@@ -38,23 +64,49 @@
       "link": "https://wearebernadette.co/thinking/celebrate-200-years-of-cadbury-by-becoming-a-part-of-their-history-with",
       "githubLink": "",
       "thumbnailImage": "/public/projects/cadbury_200years.jpg",
-      "images": [
-        "/public/projects/cadbury_200years.jpg",
-       "/public/projects/cadbury_200years.jpg"
+      "media": [
+        { 
+          "type": "image", 
+          "url": "/public/projects/aem-bg.jpg",
+          "description": "With 5 years of AEM expertise, I bridged the gap between design and technical implementation. Collaborated closely with UX/UI teams to translate designs into feasible AEM components, providing strategic input on technical limitations and opportunities. Trained and supported content managers in effectively utilizing the AEM interface, while implementing robust templates that maintained brand integrity."
+        },
+        { 
+          "type": "image", 
+          "url": "/public/projects/kia-aem-editor.jpg",
+          "description": "Developed and implemented responsive, component-based page templates that enabled marketing teams to rapidly deploy new vehicle launches and promotional campaigns. Optimized the content authoring experience by creating custom AEM components that balanced flexibility with brand consistency."
+        },
+        {
+          "type": "video",
+          "url": "/public/projects/kia_screenshot.mp4",
+          "description": "Identified critical workflow bottlenecks and developed innovative automation solutions using Selenium and Python, transforming time-consuming manual processes into streamlined operations. Created custom screenshotting tools and automated data management systems that reduced task completion time from 72+ hours to under 5 minutes across 500+ dealers. This hands-on approach to automation eliminated repetitive tasks, reduced human error to near-zero, and dramatically improved team efficiency."
+        }
       ]
     },
     {
       "id": "4",
       "title": "KIA",
-      "shortDescription": "An innovative platform for creating customized Telegram bots with diverse personalities",
-      "fullDescription": "An innovative platform for creating customized Telegram bots with diverse personalities and knowledge bases. Users can define bot behaviors, integrate custom APIs, and deploy bots with minimal technical knowledge.",
-      "technologies": ["TypeScript", "Telegram Bot API", "Supabase", "Stripe", "RAG"],
-      "link": "https://telebot-forge.com",
-      "githubLink": "https://github.com/user/telebot-forge",
+      "shortDescription": "Led the implementation and management of Adobe Experience Manager for KIA's digital platform, combining technical expertise with content strategy.",
+      "fullDescription": "Spearheaded the development and management of KIA's digital presence using Adobe Experience Manager (AEM), leveraging 5 years of comprehensive AEM expertise. Played a dual role in both technical implementation and content management, ensuring seamless integration of design and functionality.",
+      "technologies": ["JavaScript", "jQuery", "AEM", "Python", "Selenium", "HTML", "CSS"],
+      "link": "https://www.kia.com/uk/",
+      "githubLink": "",
       "thumbnailImage": "/public/projects/kia-brand-header-image.jpg",
       "media": [
-        { "type": "video", "url": "/public/projects/kia_screenshot.mp4" },
-        { "type": "image", "url": "/public/projects/image1.jpg" }
+        { 
+          "type": "image", 
+          "url": "/public/projects/aem-bg.jpg",
+          "description": "With 5 years of AEM expertise, I bridged the gap between design and technical implementation. Collaborated closely with UX/UI teams to translate designs into feasible AEM components, providing strategic input on technical limitations and opportunities. Trained and supported content managers in effectively utilizing the AEM interface, while implementing robust templates that maintained brand integrity."
+        },
+        { 
+          "type": "image", 
+          "url": "/public/projects/kia-aem-editor.jpg",
+          "description": "Developed and implemented responsive, component-based page templates that enabled marketing teams to rapidly deploy new vehicle launches and promotional campaigns. Optimized the content authoring experience by creating custom AEM components that balanced flexibility with brand consistency."
+        },
+        {
+          "type": "video",
+          "url": "/public/projects/kia_screenshot.mp4",
+          "description": "Identified critical workflow bottlenecks and developed innovative automation solutions using Selenium and Python, transforming time-consuming manual processes into streamlined operations. Created custom screenshotting tools and automated data management systems that reduced task completion time from 72+ hours to under 5 minutes across 500+ dealers. This hands-on approach to automation eliminated repetitive tasks, reduced human error to near-zero, and dramatically improved team efficiency."
+        }
       ]
     },
     {
@@ -80,9 +132,22 @@
       "link": "https://telebot-forge.com",
       "githubLink": "https://github.com/user/telebot-forge",
       "thumbnailImage": "/api/placeholder/400/300",
-      "images": [
-        "/api/placeholder/800/600",
-        "/api/placeholder/800/600"
+      "media": [
+        { 
+          "type": "image", 
+          "url": "/public/projects/aem-bg.jpg",
+          "description": "With 5 years of AEM expertise, I bridged the gap between design and technical implementation. Collaborated closely with UX/UI teams to translate designs into feasible AEM components, providing strategic input on technical limitations and opportunities. Trained and supported content managers in effectively utilizing the AEM interface, while implementing robust templates that maintained brand integrity."
+        },
+        { 
+          "type": "image", 
+          "url": "/public/projects/kia-aem-editor.jpg",
+          "description": "Developed and implemented responsive, component-based page templates that enabled marketing teams to rapidly deploy new vehicle launches and promotional campaigns. Optimized the content authoring experience by creating custom AEM components that balanced flexibility with brand consistency."
+        },
+        {
+          "type": "video",
+          "url": "/public/projects/kia_screenshot.mp4",
+          "description": "Identified critical workflow bottlenecks and developed innovative automation solutions using Selenium and Python, transforming time-consuming manual processes into streamlined operations. Created custom screenshotting tools and automated data management systems that reduced task completion time from 72+ hours to under 5 minutes across 500+ dealers. This hands-on approach to automation eliminated repetitive tasks, reduced human error to near-zero, and dramatically improved team efficiency."
+        }
       ]
     },
     {
@@ -108,9 +173,22 @@
       "link": "https://telebot-forge.com",
       "githubLink": "https://github.com/user/telebot-forge",
       "thumbnailImage": "/api/placeholder/400/300",
-      "images": [
-        "/api/placeholder/800/600",
-        "/api/placeholder/800/600"
+      "media": [
+        { 
+          "type": "image", 
+          "url": "/public/projects/aem-bg.jpg",
+          "description": "With 5 years of AEM expertise, I bridged the gap between design and technical implementation. Collaborated closely with UX/UI teams to translate designs into feasible AEM components, providing strategic input on technical limitations and opportunities. Trained and supported content managers in effectively utilizing the AEM interface, while implementing robust templates that maintained brand integrity."
+        },
+        { 
+          "type": "image", 
+          "url": "/public/projects/kia-aem-editor.jpg",
+          "description": "Developed and implemented responsive, component-based page templates that enabled marketing teams to rapidly deploy new vehicle launches and promotional campaigns. Optimized the content authoring experience by creating custom AEM components that balanced flexibility with brand consistency."
+        },
+        {
+          "type": "video",
+          "url": "/public/projects/kia_screenshot.mp4",
+          "description": "Identified critical workflow bottlenecks and developed innovative automation solutions using Selenium and Python, transforming time-consuming manual processes into streamlined operations. Created custom screenshotting tools and automated data management systems that reduced task completion time from 72+ hours to under 5 minutes across 500+ dealers. This hands-on approach to automation eliminated repetitive tasks, reduced human error to near-zero, and dramatically improved team efficiency."
+        }
       ]
     }
   ]

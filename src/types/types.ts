@@ -5,9 +5,10 @@ import { FC } from 'react';
 export interface MediaItem {
     type: 'image' | 'video';  // Strict union type
     url: string;
+    description?: string; 
   }
 
-  
+
 // Project Types  
 export interface Project {
     id: string;
@@ -19,7 +20,8 @@ export interface Project {
     githubLink: string;
     thumbnailImage: string;
     images: string[];
-    media: MediaItem[];  // Required array
+    media: MediaItem[];
+  // Required array
   }
 
 // Experience Types

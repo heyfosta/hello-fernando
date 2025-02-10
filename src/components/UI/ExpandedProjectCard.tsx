@@ -44,7 +44,7 @@ const ExpandedProjectCard: React.FC<ExpandedProjectCardProps> = ({ project, onCl
     };
   }, [handleEscapeKey]);
 
-  const renderMedia = (mediaItem: string | { type: string; url: string }, index: number) => {
+  const renderMedia = (mediaItem: string | { type: string; url: string; description?: string }, index: number) => {
     if (mediaError[index]) {
       return (
         <img
@@ -82,7 +82,6 @@ const ExpandedProjectCard: React.FC<ExpandedProjectCardProps> = ({ project, onCl
     );
   };
 
-  // Use media array if available, otherwise fall back to images
   const mediaItems = project.media || project.images || [];
 
   return (
@@ -100,7 +99,7 @@ const ExpandedProjectCard: React.FC<ExpandedProjectCardProps> = ({ project, onCl
 
       <div className="w-full h-full md:w-11/12 md:h-5/6 bg-white overflow-y-auto relative">
         {/* Hero Image */}
-        <div className="w-full h-64 bg-amber-400">
+        <div className="w-full h-64 md:h-96">
           <img
             src={getMediaPath(project.thumbnailImage)}
             alt={project.title}
@@ -134,16 +133,16 @@ const ExpandedProjectCard: React.FC<ExpandedProjectCardProps> = ({ project, onCl
             </div>
           )}
 
-          {/* Media Content */}
+          {/* Media Content with Descriptions */}
           {mediaItems.map((mediaItem, index) => (
             <div key={index} className="mb-12">
-              <div className="h-64 md:h-96 bg-blue-100">
+              <div className="h-64 md:h-96">
                 {renderMedia(mediaItem, index)}
               </div>
               
-              {project.shortDescription && (
+              {(typeof mediaItem === 'object' && mediaItem.description) && (
                 <div className="mt-6 prose max-w-none">
-                  <p className="text-gray-600">{project.shortDescription}</p>
+                  <p className="text-gray-600">{mediaItem.description}</p>
                 </div>
               )}
             </div>
