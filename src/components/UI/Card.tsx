@@ -1,4 +1,4 @@
-//src/components/UI/Card.tsx
+// Card.tsx
 import React, { ReactNode } from 'react';
 
 interface CardProps {
@@ -9,16 +9,15 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ children, className = '', onClick }) => {
   return (
-    <div 
+    <div
       className={`
         bg-white 
-        rounded-xl 
+        rounded-xl
         shadow-[0_0_15px_rgba(0,0,0,0.1)]
         transition-all 
-        duration-300 
-        hover:shadow-[0_0_20px_rgba(0,0,0,0.15)] 
+        duration-300
+        hover:shadow-[0_0_20px_rgba(0,0,0,0.15)]
         p-6
-        overflow-hidden
         ${className}
       `}
       onClick={onClick}

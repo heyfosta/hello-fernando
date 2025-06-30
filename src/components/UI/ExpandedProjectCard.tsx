@@ -50,7 +50,7 @@ const ExpandedProjectCard: React.FC<ExpandedProjectCardProps> = ({ project, onCl
         <img
           src="/api/placeholder/800/600"
           alt={`Fallback for ${project.title}`}
-          className="w-full h-full object-cover"
+          className="max-w-full max-h-[800px] w-auto h-auto mx-auto object-contain"
         />
       );
     }
@@ -62,7 +62,7 @@ const ExpandedProjectCard: React.FC<ExpandedProjectCardProps> = ({ project, onCl
           loop
           muted
           playsInline
-          className="w-full h-full object-cover"
+          className="max-w-full max-h-[800px] w-auto h-auto mx-auto"
           onError={() => handleMediaError(index)}
         >
           <source src={getMediaPath(mediaItem.url)} type="video/mp4" />
@@ -76,7 +76,7 @@ const ExpandedProjectCard: React.FC<ExpandedProjectCardProps> = ({ project, onCl
       <img
         src={getMediaPath(imageSrc)}
         alt={`${project.title} preview`}
-        className="w-full h-full object-cover"
+        className="max-w-full max-h-[800px] w-auto h-auto mx-auto object-contain"
         onError={() => handleMediaError(index)}
       />
     );
@@ -136,7 +136,7 @@ const ExpandedProjectCard: React.FC<ExpandedProjectCardProps> = ({ project, onCl
           {/* Media Content with Descriptions */}
           {mediaItems.map((mediaItem, index) => (
             <div key={index} className="mb-12">
-              <div className="h-64 md:h-96">
+              <div className="flex justify-center">
                 {renderMedia(mediaItem, index)}
               </div>
               

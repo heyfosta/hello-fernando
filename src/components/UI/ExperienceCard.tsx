@@ -1,3 +1,4 @@
+// ExperienceCard.tsx
 import React from 'react';
 import Card from './Card';
 import { Experience } from '../../types/types';
@@ -11,23 +12,29 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
   description
 }) => {
   return (
-    <div className="mx-4 mb-4">
-      <Card className="
-        text-[black] p-3 sm:p-4 md:p-6
-        transform transition-all duration-300 ease-out
-        hover:scale-110
-        relative
-        origin-center
-        overflow-hidden
-        rounded-xl
-        shadow-lg
-      ">
-        <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 sm:mb-2">
-          {company}
-        </h3>
-        <p className="text-lg sm:text-xl md:text-2xl mb-1 sm:mb-2 font-semibold">{position}, {dateRange}</p>
-        <p className="text-base sm:text-lg md:text-xl leading-relaxed">{description}</p>
-      </Card>
+    <div className="mx-4 mb-4 group perspective-1000">
+      <div className="transform-gpu transition-all duration-300 group-hover:scale-[1.02]">
+        <Card className="
+          text-black p-3 sm:p-4 md:p-6
+          relative
+          rounded-xl
+          shadow-lg
+          max-w-full
+          h-full
+        ">
+          <div className="space-y-2 sm:space-y-3">
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold break-words">
+              {company}
+            </h3>
+            <p className="text-lg sm:text-xl md:text-2xl font-semibold break-words">
+              {position}, {dateRange}
+            </p>
+            <p className="text-base sm:text-lg md:text-xl leading-relaxed break-words">
+              {description}
+            </p>
+          </div>
+        </Card>
+      </div>
     </div>
   );
 };

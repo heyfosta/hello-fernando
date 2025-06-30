@@ -66,19 +66,14 @@
       "thumbnailImage": "/public/projects/cadbury_200years.jpg",
       "media": [
         { 
-          "type": "image", 
-          "url": "/public/projects/aem-bg.jpg",
+          "type": "video", 
+          "url": "/public/projects/cadbury-myera.mp4",
           "description": "With 5 years of AEM expertise, I bridged the gap between design and technical implementation. Collaborated closely with UX/UI teams to translate designs into feasible AEM components, providing strategic input on technical limitations and opportunities. Trained and supported content managers in effectively utilizing the AEM interface, while implementing robust templates that maintained brand integrity."
         },
         { 
           "type": "image", 
-          "url": "/public/projects/kia-aem-editor.jpg",
+          "url": "/public/projects/moderation.cadbury.jpg",
           "description": "Developed and implemented responsive, component-based page templates that enabled marketing teams to rapidly deploy new vehicle launches and promotional campaigns. Optimized the content authoring experience by creating custom AEM components that balanced flexibility with brand consistency."
-        },
-        {
-          "type": "video",
-          "url": "/public/projects/kia_screenshot.mp4",
-          "description": "Identified critical workflow bottlenecks and developed innovative automation solutions using Selenium and Python, transforming time-consuming manual processes into streamlined operations. Created custom screenshotting tools and automated data management systems that reduced task completion time from 72+ hours to under 5 minutes across 500+ dealers. This hands-on approach to automation eliminated repetitive tasks, reduced human error to near-zero, and dramatically improved team efficiency."
         }
       ]
     },

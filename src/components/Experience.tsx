@@ -1,4 +1,4 @@
-// src/components/Experience.tsx
+// Experience.tsx
 import React from 'react';
 import ExperienceCard from './UI/ExperienceCard';
 import { Experience as ExperienceType } from '../types/types';
@@ -11,13 +11,16 @@ interface ExperienceProps {
   onComplete?: () => void;
 }
 
-const Experience: React.FC<ExperienceProps> = ({ experiences, education, onComplete }) => {
+const Experience: React.FC<ExperienceProps> = ({ 
+  experiences, 
+  education, 
+  onComplete 
+}) => {
   return (
     <section className="section-container text-white">
-      <div className="section-content">
+      <div className="section-content max-w-7xl mx-auto px-4">
         <div className="section-scrollable">
           <div className="section-inner">
-            {/* Work Experience Section */}
             <h2 className="section-title mb-8">Work Experience</h2>
             <ul className="space-y-8 mb-16">
               {experiences.map((experience, index) => (
@@ -27,7 +30,6 @@ const Experience: React.FC<ExperienceProps> = ({ experiences, education, onCompl
               ))}
             </ul>
 
-            {/* Education Section */}
             <h2 className="section-title mb-8">Education</h2>
             <ul className="space-y-8 pb-16">
               {education.map((edu, index) => (
